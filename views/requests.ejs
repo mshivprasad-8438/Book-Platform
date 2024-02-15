@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/stylesheets/items.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <div class="container">
+        <h2>Requests</h2>
+        <ul>
+            <!-- <li>Book Name - Requested User</li> -->
+            <% for(var i=0; i<bks.length; i++) { %>
+                <li><%= bks[i].title %>&nbsp-&nbsp<%=urs[i].name%></li>
+            <% } %>
+        </ul>
+      </div>
+    
+      <div class="button-container">
+        <!-- <a href="#" class="button">Requests</a>
+        <a href="#" class="button">Orders</a> -->
+        <a href="/userauth/home" class="button">Home</a>
+      </div>
+        
+</body>
+</html>

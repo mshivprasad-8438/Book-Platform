@@ -1,0 +1,85 @@
+form action="/userauth/login" method="POST">
+        <!-- Choose Email or Phone Number -->
+        <label for="infoType">Choose Information Type:</label>
+        <select id="infoType" name="infoType" required>
+            <option value="" disabled selected>Select</option>
+            <option value="email">Email</option>
+            <option value="phone">Phone Number</option>
+        </select>
+
+        <!-- Email Input -->
+        <div id="emailSection" style="display:none;">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+        </div>
+
+        <!-- Phone Number Input -->
+        <div id="phoneSection" style="display:none;">
+            <label for="phoneno">Phone Number:</label>
+            <input type="tel" id="phoneno" name="phoneno" pattern="[0-9]{10}">
+        </div>
+
+        <!-- Password Input -->
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        // JavaScript to toggle visibility of email and phone number sections based on user's choice
+        const infoTypeSelect = document.getElementById('infoType');
+        const emailSection = document.getElementById('emailSection');
+        const phoneSection = document.getElementById('phoneSection');
+
+        infoTypeSelect.addEventListener('change', () => {
+            if (infoTypeSelect.value === 'email') {
+                emailSection.style.display = 'block';
+                phoneSection.style.display = 'none';
+            } else if (infoTypeSelect.value === 'phone') {
+                emailSection.style.display = 'none';
+                phoneSection.style.display = 'block';
+            }
+        });
+    </script>
+
+
+
+    router.post('/login', [
+  body('phoneno', 'Enter a valid phoneNumber').isLength({ min: 10, max: 10 }),
+  body('email', 'Enter a valid email').isEmail(),
+  body('password', 'Password cannot be blank').notEmpty(),
+], async (req, res) => {
+  let  success = false;
+  //checking for errors in body params if any errors then sends response
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ success, errors: errors.array() });
+  }
+  //using destructuring concept to easily post/fetch the data
+  const { email, password, phoneno } = req.body;
+  try {
+    let user = await User.findOne({ email, phoneno });
+    if (!user) {
+      return res.status(400).json({ success, error: "Please Enter Correct Credentials" })
+    }
+    const passwordCompare = await bcrypt.compare(password, user.password);
+    if (!passwordCompare) {
+      return res.status(400).json({ success, error: "Please Enter Correct Credentials" })
+    }
+    const payload = {
+      user: {
+        id: user.id,
+      }
+    }
+    // sending payload i.e.the data you are interested in transporting to the server when you make an API request.
+    const authtoken = jwt.sign(payload, JWT_PRIVATEKEY)
+    success = true;
+    return res.send({ success, authtoken });
+  }
+  catch (err) {
+    return res.status(500).send({ success, error: err.message });
+  }
+})
+
+

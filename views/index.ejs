@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    
+  </head>
+  <body>
+
+    <form id="bookForm">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required><br>
+  
+      <label for="pageCount">Page Count:</label>
+      <input type="number" id="pageCount" name="pageCount" required><br>
+  
+      <label for="publishedDate">Published Date:</label>
+      <input type="date" id="publishedDate" name="publishedDate" required><br>
+  
+      <label for="thumbnailUrl">Thumbnail URL:</label>
+      <input type="text" id="thumbnailUrl" name="thumbnailUrl" required><br>
+  
+      <label for="longDescription">Long Description:</label>
+      <textarea id="longDescription" name="longDescription" rows="5" required></textarea><br>
+  
+      <label for="shortDescription">Short Description:</label>
+      <textarea id="shortDescription" name="shortDescription" rows="3" required></textarea><br>
+  
+      <label for="status">Status:</label>
+      <select id="status" name="status" required>
+        <option value="" disabled selected>Select</option>
+          <option value="PUBLISH">Publish</option>
+          <option value="Draft">Draft</option>
+          <option value="Inactive">Inactive</option>
+          <!-- Add other status options if needed -->
+      </select><br>
+  
+      <label for="authors">Authors (comma-separated):</label>
+      <input type="text" id="authors" name="authors" required><br>
+  
+      <label for="categories">Categories (comma-separated):</label>
+      <input type="text" id="categories" name="categories" required><br>
+      <label for="image">Upload Image</label>
+      <input type="file" id="image" name="image" value="" required /><br>
+      <button type="button" onclick="submitForm()">Add</button>
+  </form>
+  
+  <script>
+      function submitForm() {
+          // Get form data
+          const formData = {
+              title: document.getElementById('title').value,
+              pageCount: parseInt(document.getElementById('pageCount').value),
+              publishedDate: document.getElementById('publishedDate').value,
+              thumbnailUrl: document.getElementById('thumbnailUrl').value,
+              longDescription: document.getElementById('longDescription').value,
+              shortDescription: document.getElementById('shortDescription').value,
+              status: document.getElementById('status').value,
+              authors: document.getElementById('authors').value.split(',').map(author => author.trim()),
+              categories: document.getElementById('categories').value.split(',').map(category => category.trim())
+          };
+  
+          // Make a POST request to the server
+          fetch('/bookss/addbook', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(formData)
+          })
+          .then(response => response.json())
+          .then(data => {
+              // Handle the response from the server if needed
+              console.log(data);
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+      }
+  </script>
+
+    <h1>this is for books rendering</h1>
+    <% for(var i=0;i<list.length;i++) { %>
+      <div class="card text-bg-primary mb-3" style="max-width: 18rem;margin-left: 20px;margin-right: 20px;">
+        <img src="<%= list[i].thumbnailUrl %>" class="card-img-top" alt="...">
+        <img
+      src="data:image/<%= list[i].img.contentType %>;base64,<%= list[i].img.data.toString('base64') %>"
+      class="card-img-top"
+      id="bookpic"
+      alt="Book Image"
+    />
+        <div class="card-body">
+          <h5 class="card-title"><%= list[i].title %></h5>
+          <p class="card-text"><%= list[i].authors %></p>
+          <p class="card-text"><%= list[i].status %></p>
+          <p class="card-text"><%= list[i].publishedDate %></p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    <%}%>
+  </body>
+</html>

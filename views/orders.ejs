@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/stylesheets/items.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <div class="container">
+        <h2>My Orders</h2>
+        <ul>
+            <% for(var i=0; i<order.length; i++) { %>
+                <li><%= order[i].title %></li>
+            <% } %>
+        </ul>
+      </div>
+    
+      <div class="button-container">
+        <!-- <a href="#" class="button">Requests</a>
+        <a href="#" class="button">My posts</a> -->
+        <a href="/userauth/home" class="button">Home</a>
+      </div>
+        
+</body>
+</html>

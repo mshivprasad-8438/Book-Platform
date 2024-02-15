@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Signup Forms</title>
+  <link rel="stylesheet" href="/stylesheets/styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="login-signup-wrapper">
+      <div class="login-form">
+        <h2>Login</h2>
+        <form action="/userauth/login" method="POST" novalidate>
+          <!-- Choose Email or Phone Number -->
+          <label for="infoType">Choose Information Type:</label>
+          <select id="infoType" name="infoType" required>
+            <option value="" disabled selected>Select</option>
+            <option value="email">Email</option>
+            <option value="phone">Phone Number</option>
+          </select>
+          <br>
+          <!-- Hidden input to store selected information type -->
+          <input type="hidden" id="selectedInfoType" name="selectedInfoType">
+<br>
+          <!-- Email Input -->
+          <div id="emailSection" style="display:none;">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <!-- Phone Number Input -->
+          <div id="phoneSection" style="display:none;">
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="tel" id="phoneNumber" name="phoneNumber" pattern="[0-9]{10}">
+          </div>
+          <br>
+          <!-- Password Input -->
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+          <br><br>
+          <div style="justify-content: flex ;text-align: center;">
+            <button type="submit">Login</button>
+            <a href="/users/signuppage">Don't have an account? Register here</a>
+          </div>
+        </form>
+        <script>
+          // JavaScript to toggle visibility of email and phone number sections based on user's choice
+          const infoTypeSelect = document.getElementById('infoType');
+          const selectedInfoTypeInput = document.getElementById('selectedInfoType');
+          const emailSection = document.getElementById('emailSection');
+          const phoneSection = document.getElementById('phoneSection');
+
+
+          
+          infoTypeSelect.addEventListener('change', () => {
+            if (infoTypeSelect.value === 'email') {
+              emailSection.style.display = 'block';
+              phoneSection.style.display = 'none';
+              selectedInfoTypeInput.value = 'email';
+            } else if (infoTypeSelect.value === 'phone') {
+              emailSection.style.display = 'none';
+              phoneSection.style.display = 'block';
+              selectedInfoTypeInput.value = 'phone';
+            }
+          });
+
+  //         infoTypeSelect.addEventListener('change', () => {
+  // if (infoTypeSelect.value === 'email') {
+  //   emailSection.style.display = 'block';
+  //   phoneSection.style.display = 'none';
+  //   selectedInfoTypeInput.value = 'email';
+  //   document.getElementById('email').required = true;
+  //   document.getElementById('phoneNumber').required = false;
+  // } else if (infoTypeSelect.value === 'phone') {
+  //   emailSection.style.display = 'none';
+  //   phoneSection.style.display = 'block';
+  //   selectedInfoTypeInput.value = 'phone';
+  //   document.getElementById('email').required = false;
+  //   document.getElementById('phoneNumber').required = true;
+  // }
+// });
+        </script>
+        
+      </div>
+      <img src="https://cdn4.vectorstock.com/i/1000x1000/62/48/green-round-glossy-login-icon-vector-2976248.jpg" style="width: 10cm;" alt="Signup Image" class="form-image">
+    </div>
+  </div>
+</body>
+
+</html>

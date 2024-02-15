@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup Form</title>
+  
+  <link rel="stylesheet" href="/stylesheets/styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="login-signup-wrapper">
+        <div class="signup-form">
+            <!-- Your signup form HTML content can go here if needed -->
+            <!-- Add your signup form fields accordingly -->
+            <h2>Sign Up</h2>
+            <form id="createform" action="/userauth/createuser" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div><br>
+                <div class="mb-3">
+                    <label for="phonenor" class="form-label">Phone Number:</label>
+                    <input type="tel" class="form-control" id="phonenor" name="phoneno" pattern="[0-9]{10}" required>
+                </div><br>
+                <div class="mb-3">
+                    <label for="emailr" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="emailr" name="email" required>
+                </div><br>
+                <div class="mb-3">
+                    <label for="picprof" class="form-label">Profile picture</label>
+                    <input type="file" class="form-control" id="picprof" name="image" >
+                </div>
+                <br>
+                <div class="mb-3">
+                    <label for="passwordr" class="form-label">Password:</label>
+                    <input type="password" class="form-control" id="passwordr" name="password" required>
+                </div><br>
+                <div style="justify-content: flex;text-align: center;">
+                    <button type="submit" class="btn btn-primary">Create User</button>
+                    <a href="/users/loginpage" >Already user skip for login</a>
+                </div>
+              </form>
+          </div >
+          <div class="imagesss">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgvCK9iPVS9ezKTbfGttOwc8xVNQs_8BdBEA&usqp=CAU" style="width: 10cm;" alt="Signup Image" class="form-image">
+          </div>
+    </div>
+  </div>
+  
+</body>
+</html>

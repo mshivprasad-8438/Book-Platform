@@ -1,0 +1,84 @@
+.profilecard {
+    background-color: #fff;
+    max-width: 350px;
+    min-width: 250px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 400px;
+    max-height: 500px;
+}
+
+.profile-image {
+    border-radius: 50%;
+    border: 2px solid #5957f9;
+    width: 3cm;
+    height: 4cm;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.pname {
+    font-size: 15px;
+    font-weight: bold;
+    color: #272727;
+}
+
+.pmail,.pphone {
+    font-size: 14px;
+    color: grey;
+    margin-bottom: 10px;
+}
+
+.pmiddle-container {
+    background-color: #eee;
+    border-radius: 12px;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-around;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.action-button {
+    width: 80%;
+    padding: 5px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #fff;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.button-primary {
+    background-color: #2187f4;
+}
+
+.button-success {
+    background-color: #28a745;
+}
+
+.button-danger {
+    background-color: #dc3545;
+}
+
+.button-warning {
+    background-color: #f7c635;
+}

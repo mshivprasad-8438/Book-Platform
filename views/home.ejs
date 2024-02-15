@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/profile.css">
+    <link rel="stylesheet" href="/stylesheets/profile1.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("/images/booksbg.jpeg");
+            background-color: rgba(6, 6, 6, 0.729);
+            background-blend-mode: multiply;
+        }
+
+        #bookpic,
+        #bookpic1 {
+            width: 250px;
+            height: 300px;
+        }
+
+        .sideTab {
+            position: fixed;
+            z-index: 3;
+            top: 1.16cm;
+            display: none;
+            right: 00px;
+            /* Initial position outside the screen */
+            height: 100%;
+            width: auto;
+            background-color: #333;
+            padding-top: 5px;
+            padding-left: 2px;
+            padding-right: 2px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+
+    <!-- <title>Side Tab Example</title> -->
+</head>
+
+<body style="height: 100vh;">
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary p-0"
+        style="position: fixed; width: 100%;border: solid black; z-index: 2">
+        <div class="container-fluid" style="background-color:rgb(241,194,125); ">
+            <a class="navbar-brand" href="">Book Exchange</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/userauth/home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#products">Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" type="button" id="profile">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About us</a>
+                    </li>
+
+                </ul>
+                <form action="/userauth/home/find" method="post" class="d-flex" role="search">
+                    <input class="form-control me-2" name="search" type="text" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+    <section id="products" style="max-height: 600px; overflow-y: auto;">
+        <div id="content" style="color: white;">
+            <br><br>
+            <h1 style="text-align: center;">Books</h1>
+            <p> </p>
+        </div>
+        <div id="bookscontent" style="display: flex;flex-wrap: wrap ;">
+            <!-- <h1>this is for books rendering</h1> -->
+            <% for(var i=0; i<list.length; i++) { %>
+                <div id="card<%=i%>" class="card text-bg-primary mb-3"
+                    style="max-width: 250px; margin-left: 20px; margin-right: 20px;border-radius: 10px; border: solid black 1px;">
+                    <img src="<%= list[i].img %>" class="card-img-top" id="bookpic" alt="..."
+                        style=" border: solid black 2px;background-color: rgb(215,198,207);">
+
+                    <div class="card-body"
+                        style="background-color: rgb(135,158,176);border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
+                        <h5 class="card-title">
+                            Title: <%= list[i].title %>
+                        </h5>
+                        <p class="card-text">
+                            Authors: <%= list[i].authors %>
+                        </p>
+
+                        <button type="button" id="More<%=i%>" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal<%=i%>">More</button>
+                        <!-- Modal -->
+                        <div class="modal" id="exampleModal<%=i%>" tabindex="-1" data-bs-backdrop="false">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title" style="color: black;">About book</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="mpara"><b>Published on :</b> <br>
+                                            <%= list[i].publishedDate %>
+                                        </p>
+                                        <p class="mpara"><b>Long Description :</b> <br>
+                                            <%= list[i].longDescription %>
+                                        </p>
+                                        <p class="mpara"><b>Short Description :</b> <br>
+                                            <%= list[i].shortDescription %>
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="delbook(`<%=list[i].owner%>`,`<%=list[i]._id%>`)">Delete</button>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="reqbook(`<%=list[i].owner%>`,`<%=list[i]._id%>`)">Request</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <% } %>
+
+                    <script>
+                        async function reqbook(owner, bid) {
+                            uid = await currentuser();
+                            if (uid == null) {
+                                window.alert("Login to perform any task");
+                                setTimeout(() => { location.reload() }, 20)
+                            }
+                            console.log(uid.id, "-user ", owner, "--owner ", bid, "---book ");
+                            if (uid.id == owner) {
+                                window.alert("It is posted by you request is not allowed");
+                                setTimeout(() => { location.reload() }, 2000)
+                            }
+                            else {
+                                await fetch("/userauth/request", {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ _uid: uid.id, _bid: bid, _oid: owner })
+                                }).then((data) => {
+                                    return data.json();
+                                }).then((data) => {
+                                    if (data.val == "Book is requested") {
+                                        console.log("Book is requested");
+                                        location.reload();
+                                    }
+                                    else {
+                                        console.log("Request failed try again after sometime");
+                                        location.reload();
+                                    }
+                                })
+                            }
+                        }
+                        async function delbook(owner, bid) {
+                            uid = await currentuser();
+                            console.log(uid);
+                            if (uid == null) {
+                                alert("Login to perform any task");
+                                setTimeout(() => { location.reload() }, 20)
+                            }
+                            console.log(uid.id, "-user ", owner, "--owner ", bid, "---book ");
+                            if (uid.id == owner || uid.tag == "admin") {
+                                console.log("delete book is checked for permision");
+                                await fetch("/bookss/delete", {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ _uid: uid, _bid: bid,owner_id:owner })
+                                }).then((data) => {
+                                    return data.json();
+                                }).then((data) => {
+                                    if (data.val == "Document deleted successfully") {
+                                        console.log("Document deleted successfully");
+                                        location.reload();
+                                    }
+                                    else {
+                                        console.log("Document deleted failed");
+                                        location.reload();
+                                    }
+                                })
+                            }
+                            else {
+                                window.alert("You  are not allowed to delete");
+                                setTimeout(() => { location.reload() }, 2000)
+                            }
+                        }
+
+                    </script>
+
+        </div>
+    </section>
+    <br><br><br><br>
+    <section id="about" style="height: 15cm;">
+        <div style="color: aliceblue;">
+            <h1 style="text-align: center;">About us</h1>
+            <center><img src="https://book-pic.s3.ap-south-1.amazonaws.com/MyProfile.jpeg" alt=""
+                    style="border-radius: 50%; width: 6cm; height: 6cm;"></center>
+
+            <p style="padding: 20px;padding-left: 60px;padding-right: 60px;font-size: 20px;">
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Our web platform facilitates book
+                exchanges by allowing users to register, create profiles, and list
+                their books for exchange. With features like searchfor required books and share books seamlessly,
+                fostering a
+                community of book enthusiasts. This platform records and displays users' exchange requests and order
+                details, providing a comprehensive view of their interaction history. This feature enhances or
+                transparency
+                and helps in managing and tracking exchange activities efficiently.</p>
+        </div>
+    </section>
+
+    <div class="sideTab" id="loggedout" style="right: 00px;display: none;">
+        <div>
+            <a href="/users/signuppage"><button type="button" class="btn btn-primary">Register</button></a>
+            <a href="/users/loginpage"><button type="button" class="btn btn-primary">Login</button></a>
+
+        </div>
+    </div>
+
+
+
+
+
+    </div>
+
+    <div class="sideTab" id="loggedin" style="right: 00px;display: none;">
+        
+        <div id="prodiv">
+            <h5>Profile</h5>
+            <br><br><br><br><br>
+        </div>
+
+        <br><br><br><br>
+
+        <!-- Button for add book trigger modal -->
+
+        <div style="text-align: center;padding-bottom: 1rem;">
+            <a href="/userauth/logout"><button class="btn btn-primary" >Logout</button></a>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalab" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+            data-bs-backdrop="false">
+            <div class=" modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="scroll-container" style="max-height: 400px; overflow-y: auto;">
+                            <form id="bookForm">
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Title:</label>
+                                    <input type="text" class="form-control" id="title" name="title" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="pageCount" class="form-label">Page Count:</label>
+                                    <input type="number" class="form-control" id="pageCount" name="pageCount" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="publishedDate" class="form-label">Published Date:</label>
+                                    <input type="date" class="form-control" id="publishedDate" name="publishedDate"
+                                        required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="thumbnailUrl" class="form-label">Image URL:</label>
+                                    <input type="text" class="form-control" id="thumbnailUrl" name="thumbnailUrl"
+                                        required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="image">Upload Image</label>
+                                    <input type="file" id="image" name="image" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="longDescription" class="form-label">Long Description:</label>
+                                    <textarea class="form-control" id="longDescription" name="longDescription" rows="5"
+                                        required></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="shortDescription" class="form-label">Short Description:</label>
+                                    <textarea class="form-control" id="shortDescription" name="shortDescription"
+                                        rows="3" required></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Status:</label>
+                                    <select class="form-select" id="status" name="status" required>
+                                        <option value="" disabled selected>Select</option>
+                                        <option value="PUBLISH">Publish</option>
+                                        <option value="DRAFT">Draft</option>
+                                        <option value="INACTIVE">Inactive</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="authors" class="form-label">Authors (comma-separated):</label>
+                                    <input type="text" class="form-control" id="authors" name="authors" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="categories" class="form-label">Categories (comma-separated):</label>
+                                    <input type="text" class="form-control" id="categories" name="categories" required>
+                                </div>
+
+                                <button type="button" onclick="submitForm()" class="btn btn-primary">Add</button>
+                            </form>
+                        </div>
+
+                        <script>
+
+
+                            async function submitForm() {
+                                try {
+                                    // const owner = await currentuser();
+                                    const formData = new FormData();
+
+                                    formData.append('title', document.getElementById('title').value);
+                                    formData.append('pageCount', parseInt(document.getElementById('pageCount').value));
+                                    formData.append('publishedDate', document.getElementById('publishedDate').value);
+                                    formData.append('thumbnailUrl', document.getElementById('thumbnailUrl').value);
+
+                                    const imageInput = document.getElementById('image');
+                                    formData.append('image', imageInput.files[0]);
+
+                                    formData.append('longDescription', document.getElementById('longDescription').value);
+                                    formData.append('shortDescription', document.getElementById('shortDescription').value);
+                                    formData.append('status', document.getElementById('status').value);
+
+                                    const authorsInput = document.getElementById('authors');
+                                    formData.append('authors', authorsInput.value.split(',').map(author => author.trim()).join(','));
+
+                                    const categoriesInput = document.getElementById('categories');
+                                    formData.append('categories', categoriesInput.value.split(',').map(category => category.trim()).join(','));
+
+                                    const owner = await currentuser();
+                                    formData.append('owner', owner.id);
+
+                                    // Make a POST request to the server
+                                    const response = await fetch('/bookss/addbook', {
+                                        method: 'POST',
+                                        body: formData,
+                                    });
+
+                                    const data = await response.json();
+                                    if (data.val) {
+                                        location.reload();
+                                    }
+                                    // Handle the response from the server if needed
+                                    console.log(data);
+                                } catch (error) {
+                                    console.error('Error:', error);
+                                    // Handle the error appropriately
+                                }
+                            }
+                        </script>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <br><br>
+
+        <script>
+            $(document).ready(function () {
+                currentuser()
+                    .then(data => {
+                        console.log(data)
+                        document.querySelector(".userId1").value = data.id;
+                        document.querySelector(".userId2").value = data.id;
+                        document.querySelector(".userId3").value = data.id;
+                    })
+            });
+        </script>
+
+
+    </div>
+    <script>
+
+
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('/userauth/getuser');
+                const data = await response.json();
+                const isAuthenticated = await data.authenticated;
+                // console.log(data.userdata)
+                if (data.userdata) {
+                    var dtls = data.userdata;
+                    console.log("loggedin")
+                    $(() =>
+                        // $('#empty').css('display', "none"),
+                        $('#loggedin').css('display', 'block'),
+                        setTimeout(() => $('#loggedin').toggle(), 10),
+                        $('#profile').on('click', () => {
+                            $('#loggedin').toggle(10)
+                        }),
+                        $("#prodiv").html(
+        `<div class="container d-flex justify-content-center mt-5">
+            <div class="profilecard">
+                <img src="${dtls.images}" class="img-fluid profile-image" alt="Profile Image">
+                <h1 class="pname" style="font-size:25px;">${dtls.name}</h1>
+                <p class="pmail" style="font-size:15px;">${dtls.email}</p>
+                <p class="pphone" style="font-size:15px;">${dtls.phoneno}</p>
+            
+                <div class="action-buttons">
+                    <div>
+                        <button class="action-button button-primary" data-bs-toggle="modal" data-bs-target="#exampleModalab" >Add Book</button>
+                    </div>
+
+                    <div>
+                        <form action="/users/orders" method="get">
+                            <input type="hidden" class="userId1" name="userId" value="">
+                            <button type="submit" class="action-button button-success">Orders</button>
+                        </form>
+                    </div>
+                    <div>
+                        <form action="/users/requests" method="get">
+                            <input type="hidden" class="userId2" name="userId" value="">
+                            <button type="submit" class="action-button button-danger">Requests</button>
+                        </form>
+                    </div>
+                    <div>
+                        <form action="/users/myadds" method="get">
+                            <input type="hidden" class="userId3" name="userId" value="">
+                            <button type="submit" class="action-button button-warning">My Posts</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>`
+                        )
+                    )
+                }
+                else {
+                    console.log("loggedout")
+                    $(() =>
+                        // $('#empty').css('display', "none"),
+                        $('#loggedout').css('display', 'flex'),
+                        setTimeout(() => $('#loggedout').toggle(10), 5),
+                        $('#profile').on('click', () => {
+                            $('#loggedout').toggle(10)
+                        }),
+
+                    )
+
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        async function currentuser() {
+
+            const response = await fetch('/userauth/getuser');
+            const data = await response.json();
+            const isAuthenticated = await data.isAuthenticated;
+            if (!(data.isAuthenticated)) {
+                return null
+            }
+            useridt = { id: data.userdata._id, tag: data.userdata.tag }
+            return useridt;
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
