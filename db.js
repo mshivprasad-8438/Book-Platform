@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-
 const connectdB=async ()=>{
-    const url = process.env.db_CONNECT;
+    const url = process.env.DB_CONNECT;
     
     try{
         // console.log("before connect");
