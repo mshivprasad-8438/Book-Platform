@@ -31,9 +31,6 @@
 - **Book Removal:**
   Remove a book from the collection if needed, ensuring control over listings.
 
-- **Availability Indicator:**
-  Display the availability status prominently for users to check at any time.
-
 - **Privacy and Security:**
   Ensure user privacy and data security through robust authentication mechanisms.
 
