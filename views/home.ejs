@@ -246,7 +246,7 @@
     </section>
     <br><br>
     <div id="view" style="display: none;padding-left: 3cm;">
-        <button id="toggleButton" onclick="toggleButton()">Inactive</button>
+        <button id="toggleButton" onclick="toggleButton()">Deleted Books ></button>
     </div>
     <script>
         let isActive = false;
@@ -259,14 +259,14 @@
 
             // Update button text and style based on the state
             if (isActive) {
-                button.textContent = 'Active';
+                button.textContent = 'Deleted Books v';
                 button.classList.add('active');
                 let uid = await currentuser();
                 $(() => {
                     $('#revoke').css('display', 'block')
                 })
             } else {
-                button.textContent = 'Inactive';
+                button.textContent = 'Deletd Books >';
                 button.classList.remove('active');
                 $(() => {
                     $('#revoke').css('display', 'none')
@@ -282,7 +282,12 @@
         </div>
         <div id="bookscontent" style="display: flex;flex-wrap: wrap ;">
             <!-- <h1>this is for books rendering</h1> -->
-            <% for(var i=0; i<bks.length; i++) { %>
+            <%if(bks.length===0){%>
+                <div style=" justify-content: center; align-items: center;">
+                    <h5 style="color: white;">You deleted no books</h5>
+                </div>
+                
+            <% }for(var i=0; i<bks.length; i++) { %>
                 <div id="card<%=i%>" class="card text-bg-primary mb-3"
                     style="max-width: 250px; margin-left: 20px; margin-right: 20px;border-radius: 10px; border: solid black 1px;">
                     <img src="<%= bks[i].img %>" class="card-img-top" id="bookpic" alt="..."

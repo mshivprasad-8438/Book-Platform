@@ -4,7 +4,7 @@ const uploadFileToS3 = require('../middleware/uploads3')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
-const JWT_PRIVATEKEY = "Nani@shiv0101";
+// const JWT_PRIVATEKEY = "Nani@shiv0101";
 const User=require('../model/usersModel')
 
 var currentdate = new Date();
@@ -42,6 +42,7 @@ const signUp = async (req, res) => {
     var pic =
         "https://user--profile.s3.ap-south-1.amazonaws.com/download.jpeg";
     if (req.file) {
+        // const bucketName = "user--profile";
         pic = await uploadFileToS3(process.env.profile_BUCKET_NAME, req.file);
         }
     // req.body.images=pic;
@@ -79,7 +80,7 @@ const signUp = async (req, res) => {
             }
         };
 
-        const authtoken = jwt.sign(data, process.env.JWT_PRIVATEKEY);
+        const authtoken = jwt.sign(data,process.env.JWT_PRIVATEKEY);
 
         // Set a cookie with the JWT token
         res.cookie('authtoken', authtoken, { httpOnly: true, maxAge: 3600000 }); // Set expiration time as needed
