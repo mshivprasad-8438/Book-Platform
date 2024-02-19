@@ -1,6 +1,7 @@
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const { createReadStream } = require("fs");
 const fs = require("fs");
+
  
 const s3Client = new S3Client({
   region: process.env.REGION,

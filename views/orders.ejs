@@ -10,11 +10,14 @@
 
 
     <div class="container">
-        <h2>My Orders</h2>
+        <h2>My Requests</h2>
         <ul>
             <% for(var i=0; i<order.length; i++) { %>
                 <li><%= order[i].title %></li>
             <% } %>
+            <%if(order.length==0){%>
+                <p style="text-align: center;">No orders placed yet</p>
+                <%}%>
         </ul>
       </div>
     

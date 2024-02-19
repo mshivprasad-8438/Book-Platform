@@ -3,7 +3,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const connectToMongo = require("./db");
 var cors = require('cors')
 
 
@@ -11,7 +10,7 @@ var cors = require('cors')
 var usersRouter = require('./routes/users');
 var userauthRouter = require('./routes/userauth');
 var bookssRouter=require("./routes/bookss");
-var upload  = require('./controllers/uploads3');
+var upload  = require('./middleware/uploads3');
 var app = express();
 var admnRouter=require('./routes/admin');
 
@@ -31,7 +30,6 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
-connectToMongo();
 
 //routes available 
 // app.use('/', indexRouter);
@@ -45,9 +43,6 @@ app.use('/files', upload);
 app.use(function(req, res, next) {
   next(createError(404));
 });
-// app.use(function(req, res, next) {
-//   res.status(404).render('error', { message: 'Not Found', error: {} });
-// });
 
 
 // error handler

@@ -3,6 +3,7 @@
       font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
+      padding-top: 2cm;
       background-color: #f4f4f4;
     }
 
@@ -14,7 +15,7 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       border-radius: 8px;
       margin-top: 20px;
-      max-height: 400px; /* Set your desired max-height */
+      max-height: 450px; /* Set your desired max-height */
       overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
     }
 
@@ -30,6 +31,7 @@
     }
 
     li {
+      text-align: center;
       background-color: #e0e0e0;
       margin: 10px 0;
       padding: 10px;

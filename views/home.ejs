@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
     <link rel="stylesheet" href="/stylesheets/profile.css">
     <link rel="stylesheet" href="/stylesheets/profile1.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -115,7 +116,7 @@
                         <!-- Modal -->
                         <div class="modal" id="exampleModal<%=i%>" tabindex="-1" data-bs-backdrop="false">
                             <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
+                                <div class="modal-content" style="max-width: 10cm;">
                                     <div class="modal-header">
                                         <h1 class="modal-title" style="color: black;">About book</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -132,7 +133,18 @@
                                             <%= list[i].shortDescription %>
                                         </p>
                                     </div>
-                                    <div class="modal-footer">
+                                    <div class="modal-footer" id="NA<%= i %>" style="display: none;">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <div id="statusArea">
+                                            <% if (!list[i].availability) { %>
+                                                <p style="color: black;"><strong>Out of Stock</strong></p>
+                                                <% } %>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer" id="Av<%= i %>" style="display: none;">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Close</button>
                                         <button type="button" class="btn btn-primary"
@@ -140,6 +152,17 @@
                                         <button type="button" class="btn btn-primary"
                                             onclick="reqbook(`<%=list[i].owner%>`,`<%=list[i]._id%>`)">Request</button>
                                     </div>
+
+                                    <% if (list[i].availability) { %>
+                                        <script>
+                                            $('#Av<%= i %>').css('display', 'flex');
+                                        </script>
+                                        <% } else { %>
+                                            <script>
+                                                $('#NA<%= i %>').css('display', 'flex');
+                                            </script>
+                                            <% } %>
+
                                 </div>
                             </div>
                         </div>
@@ -162,7 +185,7 @@
                                 setTimeout(() => { location.reload() }, 2000)
                             }
                             else {
-                                await fetch("/userauth/request", {
+                                await fetch("/bookss/request", {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json'
@@ -197,7 +220,7 @@
                                     headers: {
                                         'Content-Type': 'application/json'
                                     },
-                                    body: JSON.stringify({ _uid: uid, _bid: bid,owner_id:owner })
+                                    body: JSON.stringify({ _uid: uid, _bid: bid, owner_id: owner })
                                 }).then((data) => {
                                     return data.json();
                                 }).then((data) => {
@@ -215,6 +238,126 @@
                                 window.alert("You  are not allowed to delete");
                                 setTimeout(() => { location.reload() }, 2000)
                             }
+                        }
+
+                    </script>
+
+        </div>
+    </section>
+    <br><br>
+    <div id="view" style="display: none;padding-left: 3cm;">
+        <button id="toggleButton" onclick="toggleButton()">Inactive</button>
+    </div>
+    <script>
+        let isActive = false;
+
+        async function toggleButton() {
+            const button = document.getElementById('toggleButton');
+
+            // Toggle the state
+            isActive = !isActive;
+
+            // Update button text and style based on the state
+            if (isActive) {
+                button.textContent = 'Active';
+                button.classList.add('active');
+                let uid = await currentuser();
+                $(() => {
+                    $('#revoke').css('display', 'block')
+                })
+            } else {
+                button.textContent = 'Inactive';
+                button.classList.remove('active');
+                $(() => {
+                    $('#revoke').css('display', 'none')
+                })
+            }
+        }
+    </script>
+    <section id="revoke" style="max-height: 600px; overflow-y: auto; display: none;">
+        <div id="content" style="color: white;">
+            <br><br>
+            <h1 style="text-align: center;">Removed Books</h1>
+            <p> </p>
+        </div>
+        <div id="bookscontent" style="display: flex;flex-wrap: wrap ;">
+            <!-- <h1>this is for books rendering</h1> -->
+            <% for(var i=0; i<bks.length; i++) { %>
+                <div id="card<%=i%>" class="card text-bg-primary mb-3"
+                    style="max-width: 250px; margin-left: 20px; margin-right: 20px;border-radius: 10px; border: solid black 1px;">
+                    <img src="<%= bks[i].img %>" class="card-img-top" id="bookpic" alt="..."
+                        style=" border: solid black 2px;background-color: rgb(215,198,207);">
+                    <div class="card-body"
+                        style="background-color: rgb(135,158,176);border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
+                        <h5 class="card-title">
+                            Title: <%= bks[i].title %>
+                        </h5>
+                        <p class="card-text">
+                            Authors: <%= bks[i].authors %>
+                        </p>
+                        <button type="button" id="More<%=i%>" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal<%=i%>">More</button>
+                        <!-- Modal -->
+                        <div class="modal" id="exampleModal<%=i%>" tabindex="-1" data-bs-backdrop="false">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content" style="max-width: 10cm;">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title" style="color: black;">About book</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="mpara"><b>Published on :</b> <br>
+                                            <%= bks[i].publishedDate %>
+                                        </p>
+                                        <p class="mpara"><b>Long Description :</b> <br>
+                                            <%= bks[i].longDescription %>
+                                        </p>
+                                        <p class="mpara"><b>Short Description :</b> <br>
+                                            <%= bks[i].shortDescription %>
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="revbook(`<%=bks[i]._id%>`)">Revoke</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+                    <script>
+                        async function revbook(bid) {
+                            // uid = await currentuser();
+                            console.log(uid);
+                            if (!null) {
+                                await fetch("/bookss/revoke", {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ _bid: bid })
+                                }).then((data) => {
+                                    return data.json();
+                                }).then((data) => {
+                                    if (data.val == "Document revoked successfully") {
+                                        console.log("Document revoked successfully");
+                                        location.reload();
+                                    }
+                                    else {
+                                        console.log("Document revoked failed");
+                                        location.reload();
+                                    }
+                                })
+
+                                alert("Login to perform any task");
+                                setTimeout(() => { location.reload() }, 20)
+                            }
+
                         }
 
                     </script>
@@ -255,7 +398,7 @@
     </div>
 
     <div class="sideTab" id="loggedin" style="right: 00px;display: none;">
-        
+
         <div id="prodiv">
             <h5>Profile</h5>
             <br><br><br><br><br>
@@ -266,7 +409,7 @@
         <!-- Button for add book trigger modal -->
 
         <div style="text-align: center;padding-bottom: 1rem;">
-            <a href="/userauth/logout"><button class="btn btn-primary" >Logout</button></a>
+            <a href="/userauth/logout"><button class="btn btn-primary">Logout</button></a>
         </div>
 
         <!-- Modal -->
@@ -350,27 +493,64 @@
                                     // const owner = await currentuser();
                                     const formData = new FormData();
 
-                                    formData.append('title', document.getElementById('title').value);
-                                    formData.append('pageCount', parseInt(document.getElementById('pageCount').value));
-                                    formData.append('publishedDate', document.getElementById('publishedDate').value);
-                                    formData.append('thumbnailUrl', document.getElementById('thumbnailUrl').value);
+                                    const titleValue = document.getElementById('title').value;
+                                    if (titleValue !== null && titleValue !== undefined) {
+                                        formData.append('title', titleValue);
+                                    }
+
+                                    const pageCountValue = document.getElementById('pageCount').value;
+                                    if (pageCountValue !== null && pageCountValue !== undefined) {
+                                        formData.append('pageCount', parseInt(pageCountValue));
+                                    }
+
+                                    const publishedDateValue = document.getElementById('publishedDate').value;
+                                    if (publishedDateValue !== null && publishedDateValue !== undefined) {
+                                        formData.append('publishedDate', publishedDateValue);
+                                    }
+
+                                    const thumbnailUrlValue = document.getElementById('thumbnailUrl').value;
+                                    if (thumbnailUrlValue !== null && thumbnailUrlValue !== undefined) {
+                                        formData.append('thumbnailUrl', thumbnailUrlValue);
+                                    }
 
                                     const imageInput = document.getElementById('image');
-                                    formData.append('image', imageInput.files[0]);
+                                    if (imageInput.files.length > 0) {
+                                        formData.append('image', imageInput.files[0]);
+                                    }
 
-                                    formData.append('longDescription', document.getElementById('longDescription').value);
-                                    formData.append('shortDescription', document.getElementById('shortDescription').value);
-                                    formData.append('status', document.getElementById('status').value);
+                                    const longDescriptionValue = document.getElementById('longDescription').value;
+                                    if (longDescriptionValue !== null && longDescriptionValue !== undefined) {
+                                        formData.append('longDescription', longDescriptionValue);
+                                    }
+
+                                    const shortDescriptionValue = document.getElementById('shortDescription').value;
+                                    if (shortDescriptionValue !== null && shortDescriptionValue !== undefined) {
+                                        formData.append('shortDescription', shortDescriptionValue);
+                                    }
+
+                                    const statusValue = document.getElementById('status').value;
+                                    if (statusValue !== null && statusValue !== undefined) {
+                                        formData.append('status', statusValue);
+                                    }
 
                                     const authorsInput = document.getElementById('authors');
-                                    formData.append('authors', authorsInput.value.split(',').map(author => author.trim()).join(','));
+                                    const authorsValue = authorsInput.value;
+                                    if (authorsValue !== null && authorsValue !== undefined) {
+                                        formData.append('authors', authorsValue.split(',').map(author => author.trim()).join(','));
+                                    }
 
                                     const categoriesInput = document.getElementById('categories');
-                                    formData.append('categories', categoriesInput.value.split(',').map(category => category.trim()).join(','));
-
+                                    const categoriesValue = categoriesInput.value;
+                                    if (categoriesValue !== null && categoriesValue !== undefined) {
+                                        formData.append('categories', categoriesValue.split(',').map(category => category.trim()).join(','));
+                                    }
                                     const owner = await currentuser();
                                     formData.append('owner', owner.id);
-
+                                    x = formData.keys()
+                                    if (x.length !== 11) {
+                                        window.alert("Enter all the fields")
+                                        return;
+                                    }
                                     // Make a POST request to the server
                                     const response = await fetch('/bookss/addbook', {
                                         method: 'POST',
@@ -428,11 +608,12 @@
                         // $('#empty').css('display', "none"),
                         $('#loggedin').css('display', 'block'),
                         setTimeout(() => $('#loggedin').toggle(), 10),
+                        $('#view').css('display', 'block'),
                         $('#profile').on('click', () => {
                             $('#loggedin').toggle(10)
                         }),
                         $("#prodiv").html(
-        `<div class="container d-flex justify-content-center mt-5">
+                            `<div class="container d-flex justify-content-center mt-5">
             <div class="profilecard">
                 <img src="${dtls.images}" class="img-fluid profile-image" alt="Profile Image">
                 <h1 class="pname" style="font-size:25px;">${dtls.name}</h1>
@@ -475,6 +656,7 @@
                         // $('#empty').css('display', "none"),
                         $('#loggedout').css('display', 'flex'),
                         setTimeout(() => $('#loggedout').toggle(10), 5),
+                        $('#view').css('display', 'none'),
                         $('#profile').on('click', () => {
                             $('#loggedout').toggle(10)
                         }),

@@ -9,10 +9,10 @@ const bookSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-//   isbn: {
-//     type: String,
-//     required: true,
-//   },
+  availability: {
+    type: Boolean,
+    required: true,
+  },
   pageCount: {
     type: Number,
     required: true,

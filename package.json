@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "covering": "nyc npm test",
     "start": "node --watch ./bin/www",
-    "createuser.test": "mocha createuser.test.js"
+    "test": "mocha './test/*.test.js'"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.513.0",
@@ -26,11 +27,15 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.9",
     "nodemon": "^3.0.3",
+    "supertest": "^6.3.4",
     "validator": "^13.11.0"
   },
   "devDependencies": {
-    "chai": "^5.1.0",
+    "chai": "^4.4.1",
+    "chai-as-promised": "^7.1.1",
+    "chai-http": "^4.4.0",
     "mocha": "^10.3.0",
+    "nyc": "^15.1.0",
     "sinon": "^17.0.1"
   }
 }
