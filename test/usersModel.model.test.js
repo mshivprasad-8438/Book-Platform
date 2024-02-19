@@ -35,7 +35,6 @@ describe('Testing user model', () => {
           // Fail the test as there should have been validation errors
           throw new Error('Validation succeeded unexpectedly');
         } catch (err) {
-          console.log(err)
           // Validation failed, as expected
           expect(err).to.exist;
           
@@ -50,7 +49,6 @@ describe('Testing user model', () => {
           // Fail the test as there should have been validation errors
           throw new Error('Validation succeeded unexpectedly');
         } catch (err) {
-          console.log(err)
           // Validation failed, as expected
           expect(err).to.exist;
           

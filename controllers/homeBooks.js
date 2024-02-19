@@ -16,7 +16,7 @@ const homeBooks = async (req, res, next) => {
 
   else {
     try {
-      const dt = jwt.verify(token, JWT_PRIVATEKEY);
+      const dt = jwt.verify(token, process.env.JWT_PRIVATEKEY);
       const obId = new mongoose.ObjectId(dt.user.id);
       [data, data2] = await Promise.all([await bookModel.find(), await bookModel.find({ owner: obId, availability: false })]);
     } catch (error) {
@@ -67,7 +67,7 @@ const bookFind = async (req, res) => {
 
   else {
     try {
-      const dt = jwt.verify(token, JWT_PRIVATEKEY);
+      const dt = jwt.verify(token, process.env.JWT_PRIVATEKEY);
       const obId = new mongoose.ObjectId(dt.user.id);
       [data2] = await Promise.all([await bookModel.find({ availability: false, owner: obId })]);
 
@@ -83,16 +83,20 @@ const bookFind = async (req, res) => {
 }
 
 const removedBook = async (req, res, next) => {
-  console.log("helloooooooo");
+  
   try {
     const [data, data2] = await Promise.all([await bookModel.find()], [await bookModel.find({ availability: false, owner: req.body._uid })]);
-
+    // console.log(data, data2);
+    console.log("hello hi nani")
+    // console.log(res);
     res.render("home", { list: data, bks: data2 })
+    console.log("hello hi nani after res")
   }
   catch(err) {
-    console.log("helloooooooo")
+    console.log("helloooooooo in catch")
     // return res.render('error', { error: err })
     console.error(err);
+    res.send("Internal Server Error")
   }
 }
 module.exports = { bookFind, homeBooks, removedBook }

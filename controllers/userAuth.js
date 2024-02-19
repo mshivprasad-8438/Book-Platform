@@ -20,18 +20,14 @@ const logOut = async (req, res) => {
     try {
         // Clear the authtoken cookie
         const userID = req.user.id;
-        console.log("line 22",userID)
         const user=await User.findOne({_id:userID});// const user = await User.findById(userID).select("-password");
-        console.log("line 24",user)
         email = user.email;
-        console.log("line 26",email)
         res.clearCookie('authtoken', { httpOnly: true, secure: true }); // Ensure same flags as when set
         sendMail(email, "Logout success", "Logout");
         res.redirect('/userauth/home'); // Redirect to the home page or wherever you want after logout
-        // res.send("logged out successfully ")
+        
     } catch (error) {
         sendMail(email, "Logout failed", "Logout");
-        console.error('Error during logout:', error);
         res.status(500).json({ message: 'An error occurred while logging out' });
     }
 }
@@ -46,19 +42,13 @@ const signUp = async (req, res) => {
     var pic =
         "https://user--profile.s3.ap-south-1.amazonaws.com/download.jpeg";
     if (req.file) {
-        const bucketName = "user--profile";
-        console.log("entered for aws");
-        pic = await uploadFileToS3(bucketName, req.file);
-        console.log("the url you got is ", pic);
-    }
+        pic = await uploadFileToS3(process.env.profile_BUCKET_NAME, req.file);
+        }
     // req.body.images=pic;
     delete req.body.image;
     let success = false;
-    console.log("hello create details are submitted")
-    //checking for errors in body params if any sends response
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        console.log("77")
         return res.status(400).json({ success, errors: errors.array() });
     }
     try {
@@ -68,18 +58,11 @@ const signUp = async (req, res) => {
         //creating a data <type-object> for sending it user's id to JWT--jsonWebToken for generating a token used for validation i.e. secure communication b/w client and server
         //here we are using id because user_id retrieve's the data in a much quicker way compared to other values
         const { email, phoneno } = req.body;
-        console.log(96);
         let user1 = await User.findOne({ $or: [{ phoneno }, { email }] });
-        console.log(user1)
         if (user1) {
-            console.log(100);
-            // return res.json({ success, error: "Sorry a user with this phone/ email already exists" })
             sendMail(email, "Sorry a user with this phone/ email already exists", "Signin failed");
             return res.status(400).send({ success, error: "Sorry a user with this phone/ email already exists" })
         }
-        console.log(84);
-        //creating a user of unique id for phoneno,email
-        console.log("befor creation", pic);
         let user = await User.create({
             name: req.body.name,
             email: req.body.email,
@@ -88,7 +71,6 @@ const signUp = async (req, res) => {
             password: secPass,
             tag: "user"
         })
-        console.log("doc is created")
         sendMail(email, "Signin Successful ", "Signin");
         // Creating a data object for sending the user's id to JWT
         const data = {
@@ -97,7 +79,7 @@ const signUp = async (req, res) => {
             }
         };
 
-        const authtoken = jwt.sign(data, JWT_PRIVATEKEY);
+        const authtoken = jwt.sign(data, process.env.JWT_PRIVATEKEY);
 
         // Set a cookie with the JWT token
         res.cookie('authtoken', authtoken, { httpOnly: true, maxAge: 3600000 }); // Set expiration time as needed
@@ -109,24 +91,19 @@ const signUp = async (req, res) => {
         if (err.code === 11000) { // Duplicate key error code
             return res.status(400).json({ success, error: "User with this email or phone number already exists." });
         }
-        console.log("122");
         return res.status(400).send({ success, error: err });
     }
 }
 
 const logIn = async (req, res) => {
-    console.log("in auth controller")
     let success = false;
     // checking for errors in body params, if any errors, then send a response
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        console.log("validationResult error bro")
         return res.status(400).json({ success, errors: errors.array() });
     }
     // using destructuring concept to easily post/fetch the data
     const { infoType, selecedInfoType,email, phoneno, password } = req.body;
-    console.log("from req.body",req.body)
-    console.log("details entered ",email, phoneno, infoType, password);
     try {
         let user;
 
@@ -154,11 +131,10 @@ const logIn = async (req, res) => {
             }
         };
 
-        const authtoken = jwt.sign(payload, JWT_PRIVATEKEY, { expiresIn: '24hrs' });
+        const authtoken = jwt.sign(payload, process.env.JWT_PRIVATEKEY, { expiresIn: '24hrs' });
 
         res.cookie('authtoken', authtoken, { httpOnly: true, maxAge: 3600000 * 24 }); // Set expiration time as needed
 
-        console.log(authtoken);
         success = true;
         sendMail(email, `Successfully loggedin at ${datetime}`, "Login");
         res.redirect("/userauth/home");

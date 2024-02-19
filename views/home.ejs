@@ -486,88 +486,71 @@
                         </div>
 
                         <script>
-
-
                             async function submitForm() {
                                 try {
-                                    // const owner = await currentuser();
                                     const formData = new FormData();
 
                                     const titleValue = document.getElementById('title').value;
-                                    if (titleValue !== null && titleValue !== undefined) {
-                                        formData.append('title', titleValue);
-                                    }
-
                                     const pageCountValue = document.getElementById('pageCount').value;
-                                    if (pageCountValue !== null && pageCountValue !== undefined) {
-                                        formData.append('pageCount', parseInt(pageCountValue));
-                                    }
-
                                     const publishedDateValue = document.getElementById('publishedDate').value;
-                                    if (publishedDateValue !== null && publishedDateValue !== undefined) {
-                                        formData.append('publishedDate', publishedDateValue);
-                                    }
-
                                     const thumbnailUrlValue = document.getElementById('thumbnailUrl').value;
-                                    if (thumbnailUrlValue !== null && thumbnailUrlValue !== undefined) {
-                                        formData.append('thumbnailUrl', thumbnailUrlValue);
-                                    }
-
                                     const imageInput = document.getElementById('image');
-                                    if (imageInput.files.length > 0) {
-                                        formData.append('image', imageInput.files[0]);
-                                    }
-
                                     const longDescriptionValue = document.getElementById('longDescription').value;
-                                    if (longDescriptionValue !== null && longDescriptionValue !== undefined) {
-                                        formData.append('longDescription', longDescriptionValue);
-                                    }
-
                                     const shortDescriptionValue = document.getElementById('shortDescription').value;
-                                    if (shortDescriptionValue !== null && shortDescriptionValue !== undefined) {
-                                        formData.append('shortDescription', shortDescriptionValue);
-                                    }
-
                                     const statusValue = document.getElementById('status').value;
-                                    if (statusValue !== null && statusValue !== undefined) {
-                                        formData.append('status', statusValue);
-                                    }
-
                                     const authorsInput = document.getElementById('authors');
-                                    const authorsValue = authorsInput.value;
-                                    if (authorsValue !== null && authorsValue !== undefined) {
-                                        formData.append('authors', authorsValue.split(',').map(author => author.trim()).join(','));
-                                    }
-
                                     const categoriesInput = document.getElementById('categories');
-                                    const categoriesValue = categoriesInput.value;
-                                    if (categoriesValue !== null && categoriesValue !== undefined) {
-                                        formData.append('categories', categoriesValue.split(',').map(category => category.trim()).join(','));
-                                    }
-                                    const owner = await currentuser();
-                                    formData.append('owner', owner.id);
-                                    x = formData.keys()
-                                    if (x.length !== 11) {
-                                        window.alert("Enter all the fields")
-                                        return;
-                                    }
-                                    // Make a POST request to the server
-                                    const response = await fetch('/bookss/addbook', {
-                                        method: 'POST',
-                                        body: formData,
-                                    });
 
-                                    const data = await response.json();
-                                    if (data.val) {
-                                        location.reload();
+                                    // Validate that all required fields are entered
+                                    if (
+                                        titleValue &&
+                                        pageCountValue &&
+                                        publishedDateValue &&
+                                        thumbnailUrlValue &&
+                                        imageInput.files.length > 0 &&
+                                        longDescriptionValue &&
+                                        shortDescriptionValue &&
+                                        statusValue &&
+                                        authorsInput.value &&
+                                        categoriesInput.value
+                                    ) {
+                                        // Append all values to formData
+                                        formData.append('title', titleValue);
+                                        formData.append('pageCount', parseInt(pageCountValue));
+                                        formData.append('publishedDate', publishedDateValue);
+                                        formData.append('thumbnailUrl', thumbnailUrlValue);
+                                        formData.append('image', imageInput.files[0]);
+                                        formData.append('longDescription', longDescriptionValue);
+                                        formData.append('shortDescription', shortDescriptionValue);
+                                        formData.append('status', statusValue);
+                                        formData.append('authors', authorsInput.value.split(',').map(author => author.trim()).join(','));
+                                        formData.append('categories', categoriesInput.value.split(',').map(category => category.trim()).join(','));
+
+                                        // Fetch current user and append to formData
+                                        const owner = await currentuser();
+                                        formData.append('owner', owner.id);
+
+                                        // Make a POST request to the server
+                                        const response = await fetch('/bookss/addbook', {
+                                            method: 'POST',
+                                            body: formData,
+                                        });
+
+                                        const data = await response.json();
+                                        if (data.val) {
+                                            location.reload();
+                                        }
+                                        // Handle the response from the server if needed
+                                        console.log(data);
+                                    } else {
+                                        window.alert("Enter all the fields");
                                     }
-                                    // Handle the response from the server if needed
-                                    console.log(data);
                                 } catch (error) {
                                     console.error('Error:', error);
                                     // Handle the error appropriately
                                 }
                             }
+
                         </script>
 
                     </div>

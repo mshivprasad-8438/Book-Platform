@@ -22,20 +22,16 @@ exports.postBook=async (req, res) => {
         }
         res.render("myadds", { post: processedData });
     } catch (error) {
-        console.error(error.message);
         res.status(500).send('Internal Server Error');
     }
 }
 
 exports.requestsBooks=async (req,res)=>{
     try {
-        console.log("in requests for me",req.query)
         const user = await User.findById(req.query.userId);
         if (!user) {
             throw new Error('User not found');
         }
-        console.log(user)
-        console.log(user.requests)
         // Retrieve the requests array from the request body
         const requests = user.requests;
     
@@ -44,8 +40,6 @@ exports.requestsBooks=async (req,res)=>{
     
         // Asynchronously process each request in the array
         for (const request of requests) {
-        console.log(request.user,request.book,"for all entries");
-    
           // Use await or Promise.all to ensure data is fetched before proceeding
           const [user, book] = await Promise.all([
             User.findOne({_id:request.user}),
@@ -64,10 +58,8 @@ exports.requestsBooks=async (req,res)=>{
             book: book.title, // Assuming `title` is the desired field
           });
         }
-        console.log(processedData)
         res.render("requests", { data: processedData });
       } catch (error) {
-        console.error(error);
         res.status(500).json({ error: 'Internal server error' });
       }
 }
@@ -75,7 +67,6 @@ exports.requestsBooks=async (req,res)=>{
 
 exports.myOrders=async (req, res) => {
     try {
-        console.log(req.query)
         const user = await User.findById(req.query.userId);
         if (!user) {
             throw new Error('User not found');
@@ -86,7 +77,6 @@ exports.myOrders=async (req, res) => {
     
         for (const request of orderl) {
         const book = await bookModel.findOne({_id:request},{title:1});
-    console.log(book,request)
           if (book) {
             processedData.push({
               title:book.title
@@ -95,7 +85,6 @@ exports.myOrders=async (req, res) => {
         }
         res.render("orders", { order: processedData });
     } catch (error) {
-        console.error(error.message);
         res.status(500).send('Internal Server Error');
     }
 }

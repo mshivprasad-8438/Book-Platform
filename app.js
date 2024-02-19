@@ -57,13 +57,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
-
-
-
-
-
-// app.listen(port, () => {
-//   console.log(`MyNotebook app listening on port http://localhost:${port}`)
-// }
-// )

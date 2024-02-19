@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 
 const connectdB=async ()=>{
-    const url = "mongodb+srv://admin:Nani@cluster0.mfpau1l.mongodb.net/?retryWrites=true&w=majority";
-    // const url ="mongodb+srv://admin:Nani@cluster0.mfpau1l.mongodb.net/"
-
+    const url = process.env.db_CONNECT;
+    
     try{
         // console.log("before connect");
         await mongoose.connect(url);
@@ -25,19 +24,3 @@ const connectdB=async ()=>{
 }
 
 module.exports=connectdB;
-
-
-// const mongoose = require('mongoose');
-// const server = "127.0.0.1:27017";
-// const database = "Mynotebook"
-// const connectToMongo = async () => {
-//     try {
-//         await mongoose.connect(`mongodb://${server}/${database}`);
-//         console.log('mongoDB connected!!');
-//     }
-//     catch (err){
-//         console.log("failed to connect mongoDB!!", err)
-//     }
-// }
-// mongoose.set('strictQuery', true);
-// module.exports = connectToMongo;

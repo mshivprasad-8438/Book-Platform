@@ -9,7 +9,7 @@ const fetchuser = (req, res, next) => {
     }
 
     try {
-        const data = jwt.verify(token, JWT_PRIVATEKEY);
+        const data = jwt.verify(token, process.env.JWT_PRIVATEKEY);
 
         req.user = data.user;
         next();
