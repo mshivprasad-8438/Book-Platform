@@ -80,6 +80,7 @@
    npm start
    ```
    Also install all the required modules using the `npm i module_name` command
+   At the end run in teminal run `npm start` command
    
 5. Open http://localhost:7000/userauth/home in your browser.
 
