@@ -111,7 +111,7 @@ exports.adBook=async function(req, res) {
        }
       //  const result = await booksModel.findByIdAndUpdate(bookId, { availability: newAvailability }, { new: true });
       try {
-        const result = await bookModel.findOneAndUpdate(
+        var result = await bookModel.findOneAndUpdate(
           { _id: bookId },
           { $set: { availability: newAvailability } },
           { new: true }
