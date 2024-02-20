@@ -86,7 +86,8 @@ const signUp = async (req, res) => {
         res.cookie('authtoken', authtoken, { httpOnly: true, maxAge: 3600000 }); // Set expiration time as needed
 
         success = true;
-        res.redirect("/userauth/home")
+        res.json({ success, error: "Signin Successful" });
+        // res.redirect("/userauth/home")
         // setTimeout(() => {res.redirect("/userauth/home")},500)
         // return res.send({ success, authtoken });
     } catch (err) {

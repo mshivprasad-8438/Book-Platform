@@ -68,6 +68,9 @@
               $(()=>{
                 $('#for-response').html(data.error);
               })
+              if(data.error=="Signin Successful"){
+                window.location.href = "/userauth/home";
+              }
             console.log('Server Response:', data);})
         } else {
             console.error('Server Error:', response.statusText);
