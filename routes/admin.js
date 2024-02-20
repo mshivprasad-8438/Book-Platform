@@ -1,5 +1,4 @@
 const express = require('express');
-const sendMail=require('../notifications/emails')
 const router = express.Router();
 const User = require('../model/usersModel');
 const { body, validationResult } = require('express-validator');
@@ -28,13 +27,6 @@ router.post("/deluser",async (req,res)=>{
     })
     console.log(newArr);
     console.log(idsToDelete[0].posts[0].toString())
-    // await bookModel.deleteMany({ _id: { $in: idsToDelete.posts } }, (err, result) => {
-    //     if (err) {
-    //       console.error('Error deleting documents:', err);
-    //     } else {
-    //       console.log('Deleted', result.deletedCount, 'documents');
-    //     }
-    //     mongoose.disconnect(); // Close the connection
-    //   });
+    
 })
 module.exports=router;
