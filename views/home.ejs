@@ -48,6 +48,20 @@
             padding-right: 2px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
+
+        #toggleButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #toggleButton:hover {
+            background-color: #45a049;
+        }
     </style>
 
     <!-- <title>Side Tab Example</title> -->
@@ -246,7 +260,7 @@
     </section>
     <br><br>
     <div id="view" style="display: none;padding-left: 3cm;">
-        <button id="toggleButton" onclick="toggleButton()">Deleted Books ></button>
+        <button id="toggleButton" onclick="toggleButton()">Deleted Books &nbsp; &nbsp; &nbsp; &nbsp;></button>
     </div>
     <script>
         let isActive = false;
@@ -259,14 +273,14 @@
 
             // Update button text and style based on the state
             if (isActive) {
-                button.textContent = 'Deleted Books v';
+                button.innerHTML = `Deleted Books &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;v`;
                 button.classList.add('active');
                 let uid = await currentuser();
                 $(() => {
                     $('#revoke').css('display', 'block')
                 })
             } else {
-                button.textContent = 'Deletd Books >';
+                button.innerHTML = 'Deletd Books &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;>';
                 button.classList.remove('active');
                 $(() => {
                     $('#revoke').css('display', 'none')
@@ -283,94 +297,95 @@
         <div id="bookscontent" style="display: flex;flex-wrap: wrap ;">
             <!-- <h1>this is for books rendering</h1> -->
             <%if(bks.length===0){%>
-                <div style=" justify-content: center; align-items: center;">
+                <div style="display: flex;margin: 0 auto; ">
                     <h5 style="color: white;">You deleted no books</h5>
                 </div>
                 
-            <% }for(var i=0; i<bks.length; i++) { %>
-                <div id="card<%=i%>" class="card text-bg-primary mb-3"
-                    style="max-width: 250px; margin-left: 20px; margin-right: 20px;border-radius: 10px; border: solid black 1px;">
-                    <img src="<%= bks[i].img %>" class="card-img-top" id="bookpic" alt="..."
-                        style=" border: solid black 2px;background-color: rgb(215,198,207);">
-                    <div class="card-body"
-                        style="background-color: rgb(135,158,176);border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
-                        <h5 class="card-title">
-                            Title: <%= bks[i].title %>
-                        </h5>
-                        <p class="card-text">
-                            Authors: <%= bks[i].authors %>
-                        </p>
-                        <button type="button" id="Morer<%=i%>" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#exampleModalr<%=i%>">More</button>
-                        <!-- Modal -->
-                        <div class="modal" id="exampleModalr<%=i%>" tabindex="-1" data-bs-backdrop="false">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content" style="max-width: 10cm;">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title" style="color: black;">About book</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p class="mpara"><b>Published on :</b> <br>
-                                            <%= bks[i].publishedDate %>
-                                        </p>
-                                        <p class="mpara"><b>Long Description :</b> <br>
-                                            <%= bks[i].longDescription %>
-                                        </p>
-                                        <p class="mpara"><b>Short Description :</b> <br>
-                                            <%= bks[i].shortDescription %>
-                                        </p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary"
-                                            onclick="revbook(`<%=bks[i]._id%>`)">Revoke</button>
+                
+                <% }for(var i=0; i<bks.length; i++) { %>
+                    <div id="card<%=i%>" class="card text-bg-primary mb-3"
+                        style="max-width: 250px; margin-left: 20px; margin-right: 20px;border-radius: 10px; border: solid black 1px;">
+                        <img src="<%= bks[i].img %>" class="card-img-top" id="bookpic" alt="..."
+                            style=" border: solid black 2px;background-color: rgb(215,198,207);">
+                        <div class="card-body"
+                            style="background-color: rgb(135,158,176);border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
+                            <h5 class="card-title">
+                                Title: <%= bks[i].title %>
+                            </h5>
+                            <p class="card-text">
+                                Authors: <%= bks[i].authors %>
+                            </p>
+                            <button type="button" id="Morer<%=i%>" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#exampleModalr<%=i%>">More</button>
+                            <!-- Modal -->
+                            <div class="modal" id="exampleModalr<%=i%>" tabindex="-1" data-bs-backdrop="false">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content" style="max-width: 10cm;">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title" style="color: black;">About book</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="mpara"><b>Published on :</b> <br>
+                                                <%= bks[i].publishedDate %>
+                                            </p>
+                                            <p class="mpara"><b>Long Description :</b> <br>
+                                                <%= bks[i].longDescription %>
+                                            </p>
+                                            <p class="mpara"><b>Short Description :</b> <br>
+                                                <%= bks[i].shortDescription %>
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="revbook(`<%=bks[i]._id%>`)">Revoke</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
-                        
                     </div>
-                </div>
-                <% } %>
+                    <% } %>
 
-                    <script>
-                        async function revbook(bid) {
-                            // uid = await currentuser();
-                            // console.log(uid);
-                            if (!null) {
-                                await fetch("/bookss/revoke", {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({ _bid: bid })
-                                }).then((data) => {
-                                    return data.json();
-                                }).then((data) => {
-                                    if (data.val == "Document revoked successfully") {
-                                        console.log("Document revoked successfully");
-                                        location.reload();
-                                    }
-                                    else {
-                                        console.log("Document revoked failed");
-                                        location.reload();
-                                    }
-                                })
+                        <script>
+                            async function revbook(bid) {
+                                // uid = await currentuser();
+                                // console.log(uid);
+                                if (!null) {
+                                    await fetch("/bookss/revoke", {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({ _bid: bid })
+                                    }).then((data) => {
+                                        return data.json();
+                                    }).then((data) => {
+                                        if (data.val == "Document revoked successfully") {
+                                            console.log("Document revoked successfully");
+                                            location.reload();
+                                        }
+                                        else {
+                                            console.log("Document revoked failed");
+                                            location.reload();
+                                        }
+                                    })
 
-                                alert("Login to perform any task");
-                                setTimeout(() => { location.reload() }, 20)
+                                    alert("Login to perform any task");
+                                    setTimeout(() => { location.reload() }, 20)
+                                }
+
                             }
 
-                        }
-
-                    </script>
+                        </script>
 
         </div>
     </section>
-    
+
     <br><br><br><br>
     <section id="about" style="height: 15cm;">
         <div style="color: aliceblue;">
