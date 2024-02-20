@@ -245,6 +245,35 @@
         </div>
     </section>
     <br><br>
+    <div id="view" style="display: none;padding-left: 3cm;">
+        <button id="toggleButton" onclick="toggleButton()">Deleted Books ></button>
+    </div>
+    <script>
+        let isActive = false;
+
+        async function toggleButton() {
+            const button = document.getElementById('toggleButton');
+
+            // Toggle the state
+            isActive = !isActive;
+
+            // Update button text and style based on the state
+            if (isActive) {
+                button.textContent = 'Deleted Books v';
+                button.classList.add('active');
+                let uid = await currentuser();
+                $(() => {
+                    $('#revoke').css('display', 'block')
+                })
+            } else {
+                button.textContent = 'Deletd Books >';
+                button.classList.remove('active');
+                $(() => {
+                    $('#revoke').css('display', 'none')
+                })
+            }
+        }
+    </script>
     <section id="revoke" style="max-height: 600px; overflow-y: auto; display: none;">
         <div id="content" style="color: white;">
             <br><br>
@@ -313,6 +342,7 @@
 
         </div>
     </section>
+    
     <br><br><br><br>
     <section id="about" style="height: 15cm;">
         <div style="color: aliceblue;">
@@ -541,7 +571,7 @@
                         // $('#empty').css('display', "none"),
                         $('#loggedin').css('display', 'block'),
                         setTimeout(() => $('#loggedin').toggle(), 10),
-                        // $('#view').css('display', 'block'),
+                        $('#view').css('display', 'block'),
                         $('#profile').on('click', () => {
                             $('#loggedin').toggle(10)
                         }),
@@ -589,7 +619,7 @@
                         // $('#empty').css('display', "none"),
                         $('#loggedout').css('display', 'flex'),
                         setTimeout(() => $('#loggedout').toggle(10), 5),
-                        // $('#view').css('display', 'none'),
+                        $('#view').css('display', 'none'),
                         $('#profile').on('click', () => {
                             $('#loggedout').toggle(10)
                         }),
