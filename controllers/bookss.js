@@ -127,7 +127,7 @@ exports.adBook=async function(req, res) {
        }
       // const result = await bookModel.deleteOne({ _id: req.body._bid });
     
-      if (result.deletedCount == 1) {
+      if (result) {
           mailbody=`<!DOCTYPE html>
           <html lang="en">
           <head>
@@ -137,15 +137,15 @@ exports.adBook=async function(req, res) {
           <body>
           <img src="${book.img}" alt="error" style="width:250px;height: 300px;"><br>
           <h5>"${book.title}"</h5><br>
-          <h5>Invokation successful</h5>
+          <h5>Revert successful</h5>
           </body>
           </html>`;
-          sendMail(email,mailbody,"Book invokationion");
-          return res.json({val:'Document invoked successfully'});
+          sendMail(email,mailbody,"Book Revertion");
+          return res.json({val:'Document reverted successfully'});
           } else {
-          mailbody="Book invokation failed ";
-          sendMail(email,mailbody,"Book invokation");
-          return res.json({val:'Document not found or not invoked'});
+          mailbody="Book Revertion failed ";
+          sendMail(email,mailbody,"Book revokation");
+          return res.json({val:'Document not found or not revoked'});
           }
   
       } catch (error) {

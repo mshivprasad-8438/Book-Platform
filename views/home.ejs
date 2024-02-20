@@ -300,9 +300,37 @@
                         <p class="card-text">
                             Authors: <%= bks[i].authors %>
                         </p>
-                        <button type="button" id="More<%=i%>" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal<%=i%>">More</button>
+                        <button type="button" id="Morer<%=i%>" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#exampleModalr<%=i%>">More</button>
                         <!-- Modal -->
+                        <div class="modal" id="exampleModalr<%=i%>" tabindex="-1" data-bs-backdrop="false">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content" style="max-width: 10cm;">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title" style="color: black;">About book</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="mpara"><b>Published on :</b> <br>
+                                            <%= bks[i].publishedDate %>
+                                        </p>
+                                        <p class="mpara"><b>Long Description :</b> <br>
+                                            <%= bks[i].longDescription %>
+                                        </p>
+                                        <p class="mpara"><b>Short Description :</b> <br>
+                                            <%= bks[i].shortDescription %>
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="revbook(`<%=bks[i]._id%>`)">Revoke</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         
                     </div>
                 </div>
@@ -311,7 +339,7 @@
                     <script>
                         async function revbook(bid) {
                             // uid = await currentuser();
-                            console.log(uid);
+                            // console.log(uid);
                             if (!null) {
                                 await fetch("/bookss/revoke", {
                                     method: 'POST',
