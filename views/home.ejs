@@ -245,35 +245,6 @@
         </div>
     </section>
     <br><br>
-    <div id="view" style="display: none;padding-left: 3cm;">
-        <button id="toggleButton" onclick="toggleButton()">Deleted Books ></button>
-    </div>
-    <script>
-        let isActive = false;
-
-        async function toggleButton() {
-            const button = document.getElementById('toggleButton');
-
-            // Toggle the state
-            isActive = !isActive;
-
-            // Update button text and style based on the state
-            if (isActive) {
-                button.textContent = 'Deleted Books v';
-                button.classList.add('active');
-                let uid = await currentuser();
-                $(() => {
-                    $('#revoke').css('display', 'block')
-                })
-            } else {
-                button.textContent = 'Deletd Books >';
-                button.classList.remove('active');
-                $(() => {
-                    $('#revoke').css('display', 'none')
-                })
-            }
-        }
-    </script>
     <section id="revoke" style="max-height: 600px; overflow-y: auto; display: none;">
         <div id="content" style="color: white;">
             <br><br>
@@ -303,34 +274,7 @@
                         <button type="button" id="More<%=i%>" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#exampleModal<%=i%>">More</button>
                         <!-- Modal -->
-                        <div class="modal" id="exampleModal<%=i%>" tabindex="-1" data-bs-backdrop="false">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content" style="max-width: 10cm;">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title" style="color: black;">About book</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p class="mpara"><b>Published on :</b> <br>
-                                            <%= bks[i].publishedDate %>
-                                        </p>
-                                        <p class="mpara"><b>Long Description :</b> <br>
-                                            <%= bks[i].longDescription %>
-                                        </p>
-                                        <p class="mpara"><b>Short Description :</b> <br>
-                                            <%= bks[i].shortDescription %>
-                                        </p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary"
-                                            onclick="revbook(`<%=bks[i]._id%>`)">Revoke</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
                 <% } %>
@@ -597,7 +541,7 @@
                         // $('#empty').css('display', "none"),
                         $('#loggedin').css('display', 'block'),
                         setTimeout(() => $('#loggedin').toggle(), 10),
-                        $('#view').css('display', 'block'),
+                        // $('#view').css('display', 'block'),
                         $('#profile').on('click', () => {
                             $('#loggedin').toggle(10)
                         }),
@@ -645,7 +589,7 @@
                         // $('#empty').css('display', "none"),
                         $('#loggedout').css('display', 'flex'),
                         setTimeout(() => $('#loggedout').toggle(10), 5),
-                        $('#view').css('display', 'none'),
+                        // $('#view').css('display', 'none'),
                         $('#profile').on('click', () => {
                             $('#loggedout').toggle(10)
                         }),

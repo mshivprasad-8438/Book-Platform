@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Signup Form</title>
-  
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
   <link rel="stylesheet" href="/stylesheets/styles.css">
 </head>
 <body>
@@ -13,8 +14,9 @@
         <div class="signup-form">
             <!-- Your signup form HTML content can go here if needed -->
             <!-- Add your signup form fields accordingly -->
-            <h2>Sign Up</h2>
-            <form id="createform" action="/userauth/createuser" method="post" enctype="multipart/form-data">
+            <h2>Sign Up</h2> 
+            <p id="for-response"></p>
+            <form id="createform" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name:</label>
                     <input type="text" class="form-control" id="name" name="name" required>
@@ -45,6 +47,38 @@
           <div class="imagesss">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgvCK9iPVS9ezKTbfGttOwc8xVNQs_8BdBEA&usqp=CAU" style="width: 10cm;" alt="Signup Image" class="form-image">
           </div>
+
+<script>
+  document.getElementById('createform').addEventListener('submit', async function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Collect form data
+    const formData = new FormData(this);
+
+    // Perform an AJAX request or use Fetch API to send the form data to the server
+    try {
+        const response = await fetch("/userauth/createuser", {
+            method: 'POST',
+            body: formData
+        });
+
+        // Check if the request was successful (status code 200-299)
+        if (response.ok) {
+            await response.json().then((data) =>{// Assuming the server returns JSON
+              $(()=>{
+                $('#for-response').html(data.error);
+              })
+            console.log('Server Response:', data);})
+        } else {
+            console.error('Server Error:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Fetch Error:', error);
+    }
+});
+
+</script>
+          
     </div>
   </div>
   
