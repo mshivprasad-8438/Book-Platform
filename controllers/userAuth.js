@@ -100,13 +100,8 @@ const signUp = async (req, res) => {
 
 const logIn = async (req, res) => {
     let success = false;
-    // checking for errors in body params, if any errors, then send a response
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ success, errors: errors.array() });
-    }
-    // using destructuring concept to easily post/fetch the data
-    const { infoType, selecedInfoType,email, phoneno, password } = req.body;
+    
+    var { infoType, selecedInfoType,email, phoneno, password } = req.body;
     try {
         let user;
 
@@ -117,10 +112,13 @@ const logIn = async (req, res) => {
         }
 
         if (!user) {
-            sendMail(email, "Tried to login but wrong credetials", "Login failed");
+            if(email){
+                sendMail(email, "Tried to login but wrong credetials", "Login failed");
+            }
             return res.status(400).json({ success, error: "Please Enter Correct Credentials" });
         }
 
+        email=user.email;
         const passwordCompare = await bcrypt.compare(password, user.password);
 
         if (!passwordCompare) {
