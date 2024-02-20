@@ -17,6 +17,10 @@ router.get("/home", homeBooks)
 
 router.post('/home/removed',removedBook)
 
+router.get("/home/find", (req, res) => {
+  res.redirect('/userauth/home');
+});
+
 router.post("/home/find", bookFind);
 
 router.post('/createuser', upload.single('image'), signUp);

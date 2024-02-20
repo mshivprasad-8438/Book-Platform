@@ -1,6 +1,5 @@
 const bookModel = require('../model/itemsModel')
 const jwt = require('jsonwebtoken');
-const JWT_PRIVATEKEY = "Nani@shiv0101";
 const mongoose = require('mongodb');
 
 
