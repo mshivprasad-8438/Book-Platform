@@ -58,9 +58,6 @@ router.get('/logout', fetchuser, logOut);
 
 
 
-// router.post("/update",async function(req,res){
-//   const upres=await user.updateOne({_id:req.body.id},{$push:{posted:req.body.bid}})
-// })
 
 
 module.exports = router

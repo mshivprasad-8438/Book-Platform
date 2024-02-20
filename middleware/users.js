@@ -5,6 +5,7 @@ const fetchuser = (req, res, next) => {
     const token = req.cookies['authtoken'];
 
     if (!token) {
+        // return res.redirect('/userauth/home');
         return res.status(401).send({ error: "Please authenticate using a valid token" });
     }
 

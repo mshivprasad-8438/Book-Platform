@@ -4,6 +4,13 @@ const mongoose = require('mongoose');
 
 exports.postBook=async (req, res) => {
     try {
+      const userIDn = req.user.id;
+    const usern = await User.findById(userIDn).select("-password");
+
+    console.log(usern)
+    if (!usern) {
+      res.redirect('/userauth/home');
+      }
         const user = await User.findById(req.query.userId);
         if (!user) {
             throw new Error('User not found');
@@ -28,6 +35,13 @@ exports.postBook=async (req, res) => {
 
 exports.requestsBooks=async (req,res)=>{
     try {
+      const userIDn = req.user.id;
+    const usern = await User.findById(userIDn).select("-password");
+
+    console.log(usern)
+    if (!usern) {
+      res.redirect('/userauth/home');
+      }
         const user = await User.findById(req.query.userId);
         if (!user) {
             throw new Error('User not found');
@@ -67,6 +81,13 @@ exports.requestsBooks=async (req,res)=>{
 
 exports.myOrders=async (req, res) => {
     try {
+      const userIDn = req.user.id;
+    const usern = await User.findById(userIDn).select("-password");
+
+    console.log(usern)
+    if (!usern) {
+      res.redirect('/userauth/home');
+      }
         const user = await User.findById(req.query.userId);
         if (!user) {
             throw new Error('User not found');
@@ -79,7 +100,8 @@ exports.myOrders=async (req, res) => {
         const book = await bookModel.findOne({_id:request},{title:1});
           if (book) {
             processedData.push({
-              title:book.title
+              title:book.title,
+              bid:book._id
             });
           }
         }
