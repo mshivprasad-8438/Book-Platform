@@ -85,16 +85,9 @@ const removedBook = async (req, res, next) => {
   
   try {
     const [data, data2] = await Promise.all([await bookModel.find()], [await bookModel.find({ availability: false, owner: req.body._uid })]);
-    // console.log(data, data2);
-    console.log("hello hi nani")
-    // console.log(res);
     res.render("home", { list: data, bks: data2 })
-    console.log("hello hi nani after res")
-  }
+    }
   catch(err) {
-    console.log("helloooooooo in catch")
-    // return res.render('error', { error: err })
-    console.error(err);
     res.send("Internal Server Error")
   }
 }

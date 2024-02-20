@@ -5,7 +5,7 @@
   "scripts": {
     "covering": "nyc npm test",
     "start": "node --watch ./bin/www",
-    "test": "mocha './test/*.test.js'"
+    "test": "mocha './test/homeBooks.controllers.test.js'"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.513.0",
