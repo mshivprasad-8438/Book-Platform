@@ -98,54 +98,6 @@ const signUp = async (req, res) => {
     }
 }
 
-// const logIn = async (req, res) => {
-//     let success = false;
-//     console.log(req.body,"entered into controller")
-//     // checking for errors in body params, if any errors, then send a response
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//         return res.json({ success, errors: errors.array() });
-//     }
-//     // using destructuring concept to easily post/fetch the data
-//     const { infoType, selecedInfoType,email, phoneno, password } = req.body;
-//     try {
-//         let user;
-
-//         if (infoType === 'email') {
-//             user = await User.findOne({ email });
-//         } else if (infoType === 'phone') {
-//             user = await User.findOne({ phoneno });
-//         }
-
-//         if (!user) {
-//             sendMail(email, "Tried to login but wrong credetials", "Login failed");
-//             return res.json({ success, error: "Please Enter Correct Credentials" });
-//         }
-
-//         const passwordCompare = await bcrypt.compare(password, user.password);
-
-//         if (!passwordCompare) {
-//             sendMail(email, "Tried to login but wrong credetials", "Login failed");
-//             return res.json({ success, error: "Please Enter Correct Credentials" });
-//         }
-
-//         const payload = {
-//             user: {
-//                 id: user.id,
-//             }
-//         };
-
-//         const authtoken = jwt.sign(payload, process.env.JWT_PRIVATEKEY, { expiresIn: '24hrs' });
-
-//         res.cookie('authtoken', authtoken, { httpOnly: true, maxAge: 3600000 * 24 }); // Set expiration time as needed
-
-//         success = true;
-//         sendMail(email, `Successfully loggedin at ${datetime}`, "Login");
-//         res.redirect("/userauth/home");
-//     } catch (err) {
-//         return res.json({ success, error: err.message });
-//     }
-// }
 const logIn = async (req, res) => {
     let success = false;
     // checking for errors in body params, if any errors, then send a response

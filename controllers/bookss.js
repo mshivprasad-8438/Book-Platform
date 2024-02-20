@@ -86,8 +86,8 @@ exports.adBook=async function(req, res) {
         </head>
         <body>
         <img src="${book.img}" alt="error" style="width:250px;height: 300px;"><br>
-        <h5>"${book.title}"</h5><br>
-        <h5>Posted successfully</h5>
+        <h5 font-size: 16px>"${book.title}"</h5><br>
+        <p style="font-size: 16px">Posted successfully</p>
         </body>
         </html>`;
         sendMail(email,mailbody,"Uploading book");
