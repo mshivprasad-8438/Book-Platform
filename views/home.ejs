@@ -91,6 +91,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#about">About us</a>
                     </li>
+                    <li style="display: none;" id="admusr">
+                        <a class="nav-link" href="/admin/userdetails">Users</a>
+                    </li>
 
                 </ul>
                 <form action="/userauth/home/find" method="post" class="d-flex" role="search">
@@ -610,10 +613,12 @@
                 if (data.userdata) {
                     var dtls = data.userdata;
                     console.log("loggedin")
-                    $(() =>
+                    $(() =>{
+                    if(dtls.tag=="admin"){$('#admusr').css('display','block');}
                         // $('#empty').css('display', "none"),
                         $('#loggedin').css('display', 'block'),
                         setTimeout(() => $('#loggedin').toggle(), 10),
+                        
                         $('#view').css('display', 'block'),
                         $('#profile').on('click', () => {
                             $('#loggedin').toggle(10)
@@ -654,7 +659,7 @@
             </div>
         </div>`
                         )
-                    )
+    })
                 }
                 else {
                     console.log("loggedout")
@@ -662,6 +667,7 @@
                         // $('#empty').css('display', "none"),
                         $('#loggedout').css('display', 'flex'),
                         setTimeout(() => $('#loggedout').toggle(10), 5),
+                        $('#admusr').css('display','none'),
                         $('#view').css('display', 'none'),
                         $('#profile').on('click', () => {
                             $('#loggedout').toggle(10)
