@@ -1,89 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Signup Form</title>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    
+  <style>
+    #togglePassword {
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  </style>
+
   <link rel="stylesheet" href="/stylesheets/styles.css">
 </head>
+
 <body>
   <div class="container">
     <div class="login-signup-wrapper">
-        <div class="signup-form">
-            <!-- Your signup form HTML content can go here if needed -->
-            <!-- Add your signup form fields accordingly -->
-            <h2>Sign Up</h2> 
-            <p id="for-response"></p>
-            <form id="createform" method="post" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name:</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
-                </div><br>
-                <div class="mb-3">
-                    <label for="phonenor" class="form-label">Phone Number:</label>
-                    <input type="tel" class="form-control" id="phonenor" name="phoneno" pattern="[0-9]{10}" required>
-                </div><br>
-                <div class="mb-3">
-                    <label for="emailr" class="form-label">Email:</label>
-                    <input type="email" class="form-control" id="emailr" name="email" required>
-                </div><br>
-                <div class="mb-3">
-                    <label for="picprof" class="form-label">Profile picture</label>
-                    <input type="file" class="form-control" id="picprof" name="image" required>
-                </div>
-                <br>
-                <div class="mb-3">
-                    <label for="passwordr" class="form-label">Password:</label>
-                    <input type="password" class="form-control" id="passwordr" name="password" required>
-                </div><br>
-                <div style="justify-content: flex;text-align: center;">
-                    <button type="submit" class="btn btn-primary">Create User</button>
-                    <a href="/users/loginpage" >Already user skip for login</a>
-                </div>
-              </form>
-          </div >
-          <div class="imagesss">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgvCK9iPVS9ezKTbfGttOwc8xVNQs_8BdBEA&usqp=CAU" style="width: 10cm;" alt="Signup Image" class="form-image">
+      <div class="signup-form" >
+        <!-- Your signup form HTML content can go here if needed -->
+        <!-- Add your signup form fields accordingly -->
+        <h2>Sign Up</h2>
+        <p id="for-response"></p>
+        <form id="createform" method="post" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+          </div><br>
+          <div class="mb-3">
+            <label for="phonenor" class="form-label">Phone Number:</label>
+            <input type="tel" class="form-control" id="phonenor" name="phoneno" pattern="[0-9]{10}" required>
+          </div><br>
+          <div class="mb-3">
+            <label for="emailr" class="form-label">Email:</label>
+            <input type="email" class="form-control" id="emailr" name="email" required>
+          </div><br>
+          <div class="mb-3">
+            <label for="picprof" class="form-label">Profile picture</label>
+            <input type="file" class="form-control" id="picprof" name="image" required>
           </div>
+          <br>
 
-<script>
-  document.getElementById('createform').addEventListener('submit', async function(event) {
-    event.preventDefault(); // Prevent the default form submission
+          <div class="input-group mb-3">
+            <label for="passwordr" class="form-label">Password:</label>
+            <input type="password" id="passwordr" name="password" class="form-control"  style="padding-right: 30px;" required>
+            <span id="togglePassword" onclick="togglePasswordVisibility()" style="margin-top: auto; font-size: 15px;">Show Password</span>
+          </div>
+          <br>
+          <div class="mb-3">
+            <label for="confirm_password" class="form-label">Confirm Password:</label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+            <p id="passwordMismatch" style="color: red; display: none;">Passwords do not match.</p>
+          </div><br>
+          <div style="justify-content: flex;text-align: center;">
+            <button type="submit" class="btn btn-primary">Create User</button>
+            <a href="/users/loginpage">Already user skip for login</a>
+          </div>
+        </form>
+      </div>
+      <div class="imagesss" style="margin :auto">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgvCK9iPVS9ezKTbfGttOwc8xVNQs_8BdBEA&usqp=CAU"
+          style="width: 10cm;" alt="Signup Image" class="form-image">
+      </div>
 
-    // Collect form data
-    const formData = new FormData(this);
+      <script>
+        function togglePasswordVisibility() {
+          const passwordInput = document.getElementById('passwordr');
+    
+          // Toggle the type attribute between 'password' and 'text'
+          passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+        }
+      </script>
+      <script>
+        const passwordInput = document.getElementById('password');
+        const togglePasswordButton = document.getElementById('togglePassword');
 
-    // Perform an AJAX request or use Fetch API to send the form data to the server
-    try {
-        const response = await fetch("/userauth/createuser", {
-            method: 'POST',
-            body: formData
+        togglePasswordButton.addEventListener('click', function () {
+          // Toggle the type attribute between 'password' and 'text'
+          passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+        });
+      </script>
+
+      <script>
+        document.getElementById('createform').addEventListener('submit', async function (event) {
+          event.preventDefault(); // Prevent the default form submission
+
+          // Collect form data
+          const formData = new FormData(this);
+
+          // Validate password and confirm password
+          const password = formData.get('password');
+          const confirmPassword = formData.get('confirm_password');
+
+          if (password !== confirmPassword) {
+            // Display an error message
+            $('#passwordMismatch').show();
+            return;
+          } else {
+            // Hide the error message if passwords match
+            $('#passwordMismatch').hide();
+          }
+
+          // Perform an AJAX request or use Fetch API to send the form data to the server
+          try {
+            const response = await fetch("/userauth/createuser", {
+              method: 'POST',
+              body: formData
+            });
+
+            // Check if the request was successful (status code 200-299)
+            if (response.ok) {
+              await response.json().then((data) => {// Assuming the server returns JSON
+                $(() => {
+                  $('#for-response').html(data.error);
+                })
+                if (data.error == "Signin Successful") {
+                  window.location.href = "/userauth/home";
+                }
+                console.log('Server Response:', data);
+              })
+            } else {
+              console.error('Server Error:', response.statusText);
+            }
+          } catch (error) {
+            console.error('Fetch Error:', error);
+          }
         });
 
-        // Check if the request was successful (status code 200-299)
-        if (response.ok) {
-            await response.json().then((data) =>{// Assuming the server returns JSON
-              $(()=>{
-                $('#for-response').html(data.error);
-              })
-              if(data.error=="Signin Successful"){
-                window.location.href = "/userauth/home";
-              }
-            console.log('Server Response:', data);})
-        } else {
-            console.error('Server Error:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Fetch Error:', error);
-    }
-});
+      </script>
 
-</script>
-          
     </div>
   </div>
-  
+
 </body>
+
 </html>

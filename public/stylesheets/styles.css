@@ -3,8 +3,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: 100vh;
     background-color: #f2f2f2;
+    overflow: hidden;
 }
 
 .container {
@@ -29,15 +30,17 @@ body {
     width: calc(100% * var(--aspect-ratio, 1));
     /* max-height: 400px; */
     border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); */
 }
 :root {
     --aspect-ratio: 1; /* Default aspect ratio is 1 (square) */
   }
 
-/* .imagesss{
-    width: "";
-} */
+.signup-form{
+    overflow-y: auto;
+    max-height: 450px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
 
 /* Increase the width of the image */
 .form-image {
@@ -53,7 +56,7 @@ body {
 
 label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 }
 
 input[type="text"],
@@ -63,7 +66,8 @@ input[type="email"],
 input[type="password"],
 select {
     width: 100%;
-    padding: 10px;
+    padding: 5px;
+    margin-bottom: 0.5px;
     border: 1px solid #ccc;
     border-radius: 3px;
     box-sizing: border-box;
