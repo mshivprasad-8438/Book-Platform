@@ -88,6 +88,38 @@ button:hover {
 }
 
 /* Media queries for responsiveness */
+/* Media queries for mobile responsiveness */
+
+@media only screen and (max-width: 400px) {
+    .container {
+        padding: 15px; /* Adjust container padding for smaller screens */
+    }
+
+    .login-form,
+    .signup-form,
+    .form-image {
+        width: 100%; /* Make forms and image full width on small screens */
+        padding: 15px; /* Adjust form padding for smaller screens */
+        margin-bottom: 15px; /* Add space between forms and image on small screens */
+    }
+
+    .form-image {
+        width: 100%; /* Make image full width on small screens */
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    select {
+        font-size: 16px; /* Increase font size for better readability on small screens */
+    }
+
+    button {
+        padding: 10px 15px; /* Adjust button padding for smaller screens */
+    }
+}
+
 
 @media only screen and (max-width: 768px) {
     .login-signup-wrapper {
