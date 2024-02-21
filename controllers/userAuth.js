@@ -1,11 +1,11 @@
 const sendMail = require('../notifications/emails');
 const { body, validationResult } = require('express-validator');
-const uploadFileToS3 = require('../middleware/uploads3')
+const s3 = require('../middleware/uploads3')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 // const JWT_PRIVATEKEY = "Nani@shiv0101";
-const User=require('../model/usersModel')
+const User = require('../model/usersModel')
 
 var currentdate = new Date();
 var datetime = "Last login: " + currentdate.getDate() + "/"
@@ -20,12 +20,12 @@ const logOut = async (req, res) => {
     try {
         // Clear the authtoken cookie
         const userID = req.user.id;
-        const user=await User.findOne({_id:userID});// const user = await User.findById(userID).select("-password");
+        const user = await User.findOne({ _id: userID });// const user = await User.findById(userID).select("-password");
         email = user.email;
         res.clearCookie('authtoken', { httpOnly: true, secure: true }); // Ensure same flags as when set
         sendMail(email, "Logout success", "Logout");
         res.redirect('/userauth/home'); // Redirect to the home page or wherever you want after logout
-        
+
     } catch (error) {
         sendMail(email, "Logout failed", "Logout");
         res.status(500).json({ message: 'An error occurred while logging out' });
@@ -43,8 +43,9 @@ const signUp = async (req, res) => {
         "https://user--profile.s3.ap-south-1.amazonaws.com/download.jpeg";
     if (req.file) {
         // const bucketName = "user--profile";
-        pic = await uploadFileToS3(process.env.profile_BUCKET_NAME, req.file);
-        }
+        pic = await s3.uploadFileToS3(process.env.profile_BUCKET_NAME, req.file);
+    }
+    s3.deleteFile(req.file.path);
     // req.body.images=pic;
     delete req.body.image;
     let success = false;
@@ -62,6 +63,7 @@ const signUp = async (req, res) => {
         let user1 = await User.findOne({ $or: [{ phoneno }, { email }] });
         if (user1) {
             sendMail(email, "Sorry a user with this phone/ email already exists", "Signin failed");
+            await s3.deleteFileFromS3(pic);
             return res.json({ success, error: "Sorry a user with this phone/ email already exists" })
         }
         let user = await User.create({
@@ -80,7 +82,7 @@ const signUp = async (req, res) => {
             }
         };
 
-        const authtoken = jwt.sign(data,process.env.JWT_PRIVATEKEY);
+        const authtoken = jwt.sign(data, process.env.JWT_PRIVATEKEY);
 
         // Set a cookie with the JWT token
         res.cookie('authtoken', authtoken, { httpOnly: true, maxAge: 3600000 }); // Set expiration time as needed
@@ -100,8 +102,8 @@ const signUp = async (req, res) => {
 
 const logIn = async (req, res) => {
     let success = false;
-    
-    var { infoType, selecedInfoType,email, phoneno, password } = req.body;
+
+    var { infoType, selecedInfoType, email, phoneno, password } = req.body;
     try {
         let user;
 
@@ -112,13 +114,13 @@ const logIn = async (req, res) => {
         }
 
         if (!user) {
-            if(email){
+            if (email) {
                 sendMail(email, "Tried to login but wrong credetials", "Login failed");
             }
             return res.status(400).json({ success, error: "Please Enter Correct Credentials" });
         }
 
-        email=user.email;
+        email = user.email;
         const passwordCompare = await bcrypt.compare(password, user.password);
 
         if (!passwordCompare) {

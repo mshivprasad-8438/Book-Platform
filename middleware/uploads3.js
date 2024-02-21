@@ -1,4 +1,4 @@
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand,DeleteObjectCommand, } = require("@aws-sdk/client-s3");
 const { createReadStream } = require("fs");
 const fs = require("fs");
 
@@ -33,7 +33,7 @@ async function uploadFileToS3(bucketName, file) {
  
  
  
-function deleteFile(filePath) {
+async function deleteFile(filePath) {
   fs.unlink(filePath, (err) => {
     if (err) {
       console.error("Error deleting file:", err);
@@ -42,5 +42,25 @@ function deleteFile(filePath) {
     }
   });
 }
+
+
+async function deleteFileFromS3(fileURL) {
+  // Extract the key from the file URL
+  const urlParts = fileURL.split("/");
+  const fileName = urlParts[urlParts.length - 1];
  
-module.exports = uploadFileToS3;
+  const deleteParams = {
+    Bucket: process.env.profile_BUCKET_NAME, // Assuming you have the bucket name in an environment variable
+    Key: fileName,
+  };
+ 
+  try {
+    const data = await s3Client.send(new DeleteObjectCommand(deleteParams));
+    console.log("File deleted successfully:", data);
+  } catch (err) {
+    console.error("Error deleting file:", err);
+    throw err; // Re-throw the error to handle it in the calling function
+  }
+}
+ 
+module.exports = {uploadFileToS3,deleteFile,deleteFileFromS3};

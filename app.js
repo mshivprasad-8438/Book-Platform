@@ -10,7 +10,6 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var userauthRouter = require('./routes/userauth');
 var bookssRouter=require("./routes/bookss");
-var upload  = require('./middleware/uploads3');
 var app = express();
 var admnRouter=require('./routes/admin');
 
@@ -37,7 +36,6 @@ app.use('/admin',admnRouter);
 app.use('/users', usersRouter);
 app.use('/userauth',userauthRouter);
 app.use('/bookss',bookssRouter);
-app.use('/files', upload);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
