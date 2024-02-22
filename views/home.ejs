@@ -591,9 +591,11 @@
                 currentuser()
                     .then(data => {
                         console.log(data)
-                        document.querySelector(".userId1").value = data.id;
+                        if(data){
+                            document.querySelector(".userId1").value = data.id;
                         document.querySelector(".userId2").value = data.id;
                         document.querySelector(".userId3").value = data.id;
+                        }
                     })
             });
         </script>
