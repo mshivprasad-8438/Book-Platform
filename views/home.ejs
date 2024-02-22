@@ -18,60 +18,16 @@
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-image: url("/images/booksbg.jpeg");
-            background-color: rgba(6, 6, 6, 0.729);
-            background-blend-mode: multiply;
-        }
-
-        #bookpic,
-        #bookpic1 {
-            width: 250px;
-            height: 300px;
-        }
-
-        .sideTab {
-            position: fixed;
-            z-index: 3;
-            top: 1.16cm;
-            display: none;
-            right: 00px;
-            /* Initial position outside the screen */
-            height: 100%;
-            width: auto;
-            background-color: #333;
-            padding-top: 5px;
-            padding-left: 2px;
-            padding-right: 2px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        #toggleButton {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        #toggleButton:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <link rel="stylesheet" href="/stylesheets/home.css">
 
     <!-- <title>Side Tab Example</title> -->
 </head>
 
-<body style="height: 100vh;">
+<body >
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary p-0"
-        style="position: fixed; width: 100%;border: solid black; z-index: 2">
-        <div class="container-fluid" style="background-color:rgb(241,194,125); ">
+        >
+        <div class="container-fluid" >
             <a class="navbar-brand" href="">Book Exchange</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
                 aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,13 +61,13 @@
     </nav>
 
 
-    <section id="products" style="max-height: 600px; overflow-y: auto;">
+    <section id="products" >
         <div id="content" style="color: white;">
             <br><br>
             <h1 style="text-align: center;">Books</h1>
             <p> </p>
         </div>
-        <div id="bookscontent" style="display: flex;flex-wrap: wrap ;">
+        <div id="bookscontent" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
             <!-- <h1>this is for books rendering</h1> -->
             <% for(var i=0; i<list.length; i++) { %>
                 <div id="card<%=i%>" class="card text-bg-primary mb-3"
@@ -393,18 +349,13 @@
     <section id="about" style="height: 15cm;">
         <div style="color: aliceblue;">
             <h1 style="text-align: center;">About us</h1>
-            <center><img src="https://book-pic.s3.ap-south-1.amazonaws.com/MyProfile.jpeg" alt=""
+            <center><img src="https://book-pic.s3.ap-south-1.amazonaws.com/MyProfile.jpeg" id="abtpic" alt=""
                     style="border-radius: 50%; width: 6cm; height: 6cm;"></center>
 
-            <p style="padding: 20px;padding-left: 60px;padding-right: 60px;font-size: 20px;">
-                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Our web platform facilitates book
+            <p id="abtpara" style="padding: 20px 60px;font-size: 20px;">
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp  Our web platform facilitates book
                 exchanges by allowing users to register, create profiles, and list
-                their books for exchange. With features like searchfor required books and share books seamlessly,
-                fostering a
-                community of book enthusiasts. This platform records and displays users' exchange requests and order
-                details, providing a comprehensive view of their interaction history. This feature enhances or
-                transparency
-                and helps in managing and tracking exchange activities efficiently.</p>
+                their books for exchange.</p>
         </div>
     </section>
 
