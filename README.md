@@ -1,6 +1,5 @@
 ## BookExchangePlatform
 
-# [Website Url](http://3.6.94.95/)
 
 
 **Book Exchange Platform** is a web application designed to facilitate the exchange of books among users. This platform aims to create a seamless experience for discovering, listing, and exchanging books. It simplifies the process for users looking to share or acquire books.
