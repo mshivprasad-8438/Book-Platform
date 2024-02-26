@@ -11,12 +11,19 @@ const bookModel = require('../model/itemsModel');
 const mongoose = require('mongoose');
 
 
-router.get("/userdetails", async (req,res,next)=>{
+router.get("/userdetails",fetchuser, async (req,res,next)=>{
+    const userID = req.user.id;
+    const user = await User.findById(userID).select("-password");
+    if(user.tag=="admin"){
     await User.find({tag:'user'}).then((data)=>{
         // console.log(data);
         res.render("admin",{list:data})
-      })
-})
+      })}
+      else{
+        res.redirect('/userauth/home');
+    }
+
+    })
 
 
 router.post("/deluser",async (req,res)=>{
