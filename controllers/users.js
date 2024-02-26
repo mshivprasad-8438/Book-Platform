@@ -6,7 +6,6 @@ exports.postBook=async (req, res) => {
     try {
       const userIDn = req.user.id;
     const usern = await User.findById(userIDn).select("-password");
-
     console.log(usern)
     if (!usern) {
       res.redirect('/userauth/home');

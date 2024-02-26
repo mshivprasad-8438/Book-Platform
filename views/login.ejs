@@ -6,6 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login & Signup Forms</title>
   <link rel="stylesheet" href="/stylesheets/styles.css">
+  <style>
+    #togglePassword {
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  </style>
 </head>
 
 <body>
@@ -38,14 +44,26 @@
           </div>
           <br>
           <!-- Password Input -->
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password" required>
+          <div class="input-group mb-3">
+            <label for="passwordl" class="form-label">Password:</label>
+            <input type="password" id="passwordl" name="password" class="form-control"   required>
+            <span id="togglePassword" onclick="togglePasswordVisibility()" style="margin-top: auto; font-size: 15px;">Show Password</span>
+          </div>
           <br><br>
           <div style="justify-content: flex ;text-align: center;">
             <button type="submit">Login</button>
             <a href="/users/signuppage">Don't have an account? Register here</a>
           </div>
         </form>
+
+        <script>
+          function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('passwordl');
+      
+            // Toggle the type attribute between 'password' and 'text'
+            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+          }
+        </script>
         <script>
           // JavaScript to toggle visibility of email and phone number sections based on user's choice
           const infoTypeSelect = document.getElementById('infoType');

@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 
 
 router.get("/userdetails", async (req,res,next)=>{
-    await User.find().then((data)=>{
+    await User.find({tag:'user'}).then((data)=>{
         // console.log(data);
         res.render("admin",{list:data})
       })

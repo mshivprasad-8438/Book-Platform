@@ -33,7 +33,6 @@ const bookFind = async (req, res) => {
     // const regexPattern = new RegExp(`.*${searchTerm}.*`, 'i');
     
     const searchQuery = {
-
       index: "searchingIndex",
       text: {
         query: searchTerm,
@@ -41,7 +40,6 @@ const bookFind = async (req, res) => {
           wildcard: "*"
         }
       }
-
     }
     if(searchTerm==""){
       var data={}

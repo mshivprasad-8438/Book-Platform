@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const bookSchema = new mongoose.Schema({
-//   _id: {
-//     type: Number,
-//     required: true,
-//   },
+  //   _id: {
+  //     type: Number,
+  //     required: true,
+  //   },
   title: {
     type: String,
     required: true,
@@ -23,7 +23,7 @@ const bookSchema = new mongoose.Schema({
   },
   thumbnailUrl: {
     type: String,
-    required: true,
+
   },
   shortDescription: {
     type: String,
@@ -47,15 +47,13 @@ const bookSchema = new mongoose.Schema({
     required: true,
   },
   img:
-    {
-      type: String,
-    required: true,  
-      // data: Buffer,
-      //   contentType: String
-    },
-  owner:{
-    type:mongoose.Schema.Types.ObjectId,ref:'users',
-    required:true
+  {
+    type: String,
+    required: true,
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId, ref: 'users',
+    required: true
   },
 });
 

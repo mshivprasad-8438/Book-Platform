@@ -23,10 +23,9 @@
     <!-- <title>Side Tab Example</title> -->
 </head>
 
-<body >
+<body class="hide-scrollbar">
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary p-0"
-        >
+    <nav class="navbar navbar-expand-lg bg-body-tertiary p-0">
         <div class="container-fluid" >
             <a class="navbar-brand" href="">Book Exchange</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
@@ -59,9 +58,8 @@
             </div>
         </div>
     </nav>
-
-
-    <section id="products" >
+<div style="padding-top: 44px;">
+    <section id="products" class="hide-scrollbar" >
         <div id="content" style="color: white;">
             <br><br>
             <h1 style="text-align: center;">Books</h1>
@@ -88,8 +86,8 @@
                             data-bs-target="#exampleModal<%=i%>">More</button>
                         <!-- Modal -->
                         <div class="modal" id="exampleModal<%=i%>" tabindex="-1" data-bs-backdrop="false">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content" style="max-width: 10cm;">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                                <div class="modal-content" style="max-width: 10cm;max-height: 15cm;">
                                     <div class="modal-header">
                                         <h1 class="modal-title" style="color: black;">About book</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -97,13 +95,13 @@
                                     </div>
                                     <div class="modal-body">
                                         <p class="mpara"><b>Published on :</b> <br>
-                                            <%= list[i].publishedDate %>
-                                        </p>
-                                        <p class="mpara"><b>Long Description :</b> <br>
-                                            <%= list[i].longDescription %>
+                                           &nbsp;&nbsp; <%= list[i].publishedDate %>
                                         </p>
                                         <p class="mpara"><b>Short Description :</b> <br>
-                                            <%= list[i].shortDescription %>
+                                            &nbsp;&nbsp;<%= list[i].shortDescription %>
+                                        </p>
+                                        <p class="mpara"><b>Long Description :</b> <br>
+                                            &nbsp;&nbsp;<%= list[i].longDescription %>
                                         </p>
                                     </div>
                                     <div class="modal-footer" id="NA<%= i %>" style="display: none;">
@@ -217,6 +215,7 @@
 
         </div>
     </section>
+</div>
     <br><br>
     <div id="view" style="display: none;padding-left: 3cm;">
         <button id="toggleButton" onclick="toggleButton()">Deleted Books &nbsp; &nbsp; &nbsp; &nbsp;></button>
@@ -247,9 +246,9 @@
             }
         }
     </script>
-    <section id="revoke" style="max-height: 600px; overflow-y: auto; display: none;">
+    <section id="revoke" class="hide-scrollbar" style="max-height: 600px; overflow-y: auto; display: none;">
         <div id="content" style="color: white;">
-            <br><br>
+            
             <h1 style="text-align: center;">Removed Books</h1>
             <p> </p>
         </div>
@@ -278,8 +277,8 @@
                                 data-bs-target="#exampleModalr<%=i%>">More</button>
                             <!-- Modal -->
                             <div class="modal" id="exampleModalr<%=i%>" tabindex="-1" data-bs-backdrop="false">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content" style="max-width: 10cm;">
+                                <div class="modal-dialog modal-dialog-scrollable">
+                                    <div class="modal-content" style="max-width: 10cm;max-height: 15cm;">
                                         <div class="modal-header">
                                             <h1 class="modal-title" style="color: black;">About book</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -287,13 +286,13 @@
                                         </div>
                                         <div class="modal-body">
                                             <p class="mpara"><b>Published on :</b> <br>
-                                                <%= bks[i].publishedDate %>
-                                            </p>
-                                            <p class="mpara"><b>Long Description :</b> <br>
-                                                <%= bks[i].longDescription %>
+                                                &nbsp;&nbsp;<%= bks[i].publishedDate %>
                                             </p>
                                             <p class="mpara"><b>Short Description :</b> <br>
-                                                <%= bks[i].shortDescription %>
+                                                &nbsp;&nbsp; <%= bks[i].shortDescription %>
+                                            </p>
+                                            <p class="mpara"><b>Long Description :</b> <br>
+                                                &nbsp;&nbsp;<%= bks[i].longDescription %>
                                             </p>
                                         </div>
                                         <div class="modal-footer">
@@ -334,10 +333,12 @@
                                         }
                                     })
 
-                                    alert("Login to perform any task");
-                                    setTimeout(() => { location.reload() }, 20)
                                 }
+                                else{
+                                    alert("Login to perform any task");
+                                setTimeout(() => { location.reload() }, 20)
 
+                                }
                             }
 
                         </script>
@@ -420,7 +421,7 @@
                                 <div class="mb-3">
                                     <label for="thumbnailUrl" class="form-label">Image URL:</label>
                                     <input type="text" class="form-control" id="thumbnailUrl" name="thumbnailUrl"
-                                        required>
+                                        >
                                 </div>
                                 <div class="mb-3">
                                     <label for="image">Upload Image</label>
@@ -483,7 +484,6 @@
                                         titleValue &&
                                         pageCountValue &&
                                         publishedDateValue &&
-                                        thumbnailUrlValue &&
                                         imageInput.files.length > 0 &&
                                         longDescriptionValue &&
                                         shortDescriptionValue &&

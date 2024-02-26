@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,18 +13,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="/stylesheets/admin.css">
-        <style>
-            .mpara{
-    color: #020202;
-  }
-        </style>
+    <link rel="stylesheet" href="/stylesheets/admin.css">
+    <style>
+        .mpara {
+            color: #020202;
+        }
+    </style>
 </head>
+
 <body>
-    
-<form action="/">
-    <button type="submit" class="fixed-button">Home</button>
-</form>
+
+    <form action="/">
+        <button type="submit" class="fixed-button">Home</button>
+    </form>
 
     <section id="users" style="max-height: 600px; overflow-y: auto;">
         <div id="content" style="color: white;">
@@ -37,7 +39,7 @@
                 <div id="card<%=i%>" class="card text-bg-primary mb-3"
                     style="max-width: 250px; margin-left: 20px; margin-right: 20px;border-radius: 10px; border: solid black 1px;">
                     <img src="<%= list[i].images %>" class="card-img-top" id="bookpic" alt="image"
-                                       style=" border: solid black 2px;background-color: rgb(215,198,207);width:250px;height: 300px;">
+                        style=" border: solid black 2px;background-color: rgb(215,198,207);width:250px;height: 300px;">
 
                     <div class="card-body"
                         style="background-color: rgb(135,158,176);border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
@@ -52,7 +54,7 @@
                             data-bs-target="#exampleModal<%=i%>">More</button>
                         <!-- Modal -->
                         <div class="modal" id="exampleModal<%=i%>" tabindex="-1" data-bs-backdrop="false">
-                            <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-dialog modal-dialog-centered" style="max-width: 10cm;">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h1 class="modal-title" style="color: black;">About user</h1>
@@ -73,10 +75,7 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary"
-                                            onclick="deluser(`<%=list[i]._id%>`)">Remove</button>
-                                        <button type="button" class="btn btn-primary"
-                                            onclick="reqbook(`<%=list[i].owner%>`,`<%=list[i]._id%>`)">Request</button>
+
                                     </div>
                                 </div>
                             </div>
@@ -87,63 +86,11 @@
                 </div>
                 <% } %>
 
-                    <script>
-                        async function reqbook(owner, bid) {
-                            uid = await currentuser();
-                            if (uid == null) {
-                                window.alert("Login to perform any task");
-                                setTimeout(() => { location.reload() }, 20)
-                            }
-                            console.log(uid.id, "-user ", owner, "--owner ", bid, "---book ");
-                            if (uid.id == owner) {
-                                window.alert("It is posted by you request is not allowed");
-                                setTimeout(() => { location.reload() }, 2000)
-                            }
-                            else {
-                                await fetch("/userauth/request", {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({ _uid: uid.id, _bid: bid, _oid: owner })
-                                }).then((data) => {
-                                    return data.json();
-                                }).then((data) => {
-                                    if (data.val == "Book is requested") {
-                                        console.log("Book is requested");
-                                        location.reload();
-                                    }
-                                    else {
-                                        console.log("Request failed try again after sometime");
-                                        location.reload();
-                                    }
-                                })
-                            }
-                        }
-                        async function deluser(uid) {
-                            // uid = await currentuser();
-                            // console.log(uid);
-                            // if (uid == null) {
-                            //     alert("Login to perform any task");
-                            //     setTimeout(() => { location.reload() }, 20)
-                            // }
-                            // console.log(uid.id, "-user ", owner, "--owner ", bid, "---book ");
-                            console.log("delete book is checked for permision");
-                                await fetch("/admin/deluser", {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({ _uid: uid})
-                                })
-                            
-                        }
-
-                    </script>
 
         </div>
     </section>
 
 
 </body>
+
 </html>

@@ -11,14 +11,7 @@ const connectdB=async ()=>{
         console.error(err.message);
         process.exit(1);
     }
-    const dbConnection=mongoose.connection;
-    dbConnection.collection('open',(_)=>{
-        console.log((`Database Connected : ${url}`));
-    });
-
-    dbConnection.on('error',(err)=>{
-        console.error(`connection error:${err}`);
-    });
+    
     return;
 }
 

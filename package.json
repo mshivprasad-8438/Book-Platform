@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "covering": "nyc npm test",
+    "covering": "nyc --reporter=lcov npm test",
     "start": "node --watch ./bin/www",
     "test": "mocha './test/*.test.js'"
   },
@@ -28,6 +28,7 @@
     "nodemailer": "^6.9.9",
     "nodemon": "^3.0.3",
     "pm2": "^5.3.1",
+    "sinon-chai": "^3.7.0",
     "supertest": "^6.3.4",
     "validator": "^13.11.0"
   },

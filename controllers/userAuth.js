@@ -3,8 +3,6 @@ const { body, validationResult } = require('express-validator');
 const s3 = require('../middleware/uploads3')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const validator = require('validator');
-// const JWT_PRIVATEKEY = "Nani@shiv0101";
 const User = require('../model/usersModel')
 
 var currentdate = new Date();
@@ -20,7 +18,7 @@ const logOut = async (req, res) => {
     try {
         // Clear the authtoken cookie
         const userID = req.user.id;
-        const user = await User.findOne({ _id: userID });// const user = await User.findById(userID).select("-password");
+        const user = await User.findOne({ _id: userID },{email:1});
         email = user.email;
         res.clearCookie('authtoken', { httpOnly: true, secure: true }); // Ensure same flags as when set
         sendMail(email, "Logout success", "Logout");
