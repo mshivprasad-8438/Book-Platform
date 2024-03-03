@@ -46,6 +46,10 @@ const bookSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
+  timestamp: {
+    type: Date,
+    default: Date.now
+  },
   img:
   {
     type: String,

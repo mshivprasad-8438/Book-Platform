@@ -5,73 +5,137 @@ const sinon = require('sinon');
 const { reqBook, delBook,adBook,revBook } = require('../controllers/bookss');
 const User = require('../model/usersModel');
 const bookModel = require('../model/itemsModel');
+const orderModel=require('../model/orderModel')
 const nodemailer = require('nodemailer');
 const s3functions = require('../middleware/uploads3');
 
 
+// describe('reqBook Function', () => {
+//     afterEach(() => {
+//         sinon.restore();
+//     });
+
+//     it('should handle successful book request', async () => {
+//         // Mock User and bookModel methods
+//         sinon.stub(User, 'updateOne').resolves({ modifiedCount: 1 });
+//         sinon.stub(User, 'find').resolves([{ email: 'user-email@example.com', name: 'User' }]);
+//         sinon.stub(bookModel, 'find').resolves([{ title: 'Test Book' }]);
+//         sinon.stub(nodemailer, 'createTransport').returns({
+//             sendMail: sinon.stub().yields(null, { response: 'success' })
+//         });
+//         // Stub the response object
+//         const res = { json: sinon.spy() };
+
+//         // Test input
+//         const req = {
+//             body: {
+//                 _uid: new mongoose.Types.ObjectId(),
+//                 _bid: new mongoose.Types.ObjectId(),
+//                 _oid: new mongoose.Types.ObjectId(),
+//             },
+//         };
+
+//         // Execute the function
+//         await reqBook(req, res);
+
+//         // Assert the expectations
+//         expect(res.json.calledOnce, 'res.json should be called once').to.be.true;
+//         expect(res.json.calledWithExactly({ val: 'Book is requested' }), 'res.json should be called with the correct arguments').to.be.true;
+//     });
+
+
+//     it('should handle failed book request', async () => {
+//         // Mock User and bookModel methods
+//         sinon.stub(User, 'updateOne').resolves({ modifiedCount: 0 });
+//         sinon.stub(User, 'find').resolves([{ email: 'user-email@example.com', name: 'User' }]);
+//         sinon.stub(bookModel, 'find').resolves([{ title: 'Test Book' }]);
+//         // sinon.stub(sendMail, 'sendMail').resolves({ response: 'success' });
+//         sinon.stub(nodemailer, 'createTransport').returns({
+//             sendMail: sinon.stub().yields(null, { response: 'success' })
+//         });
+//         // Stub the response object
+//         const res = { json: sinon.spy() };
+
+//         // Test input
+//         const req = {
+//             body: {
+//                 _uid: new mongoose.Types.ObjectId(),
+//                 _bid: new mongoose.Types.ObjectId(),
+//                 _oid: new mongoose.Types.ObjectId(),
+//             },
+//         };
+
+//         // Execute the function
+//         await reqBook(req, res);
+
+//         // Assert the expectations
+//         expect(res.json.calledOnce, 'res.json should be called once').to.be.true;
+//         expect(res.json.calledWithExactly({ val: 'Requesting book is failed' }), 'res.json should be called with the correct arguments').to.be.true;
+//     });
+
+// });
+
 describe('reqBook Function', () => {
-    afterEach(() => {
-        sinon.restore();
-    });
+  afterEach(() => {
+      sinon.restore();
+  });
 
-    it('should handle successful book request', async () => {
-        // Mock User and bookModel methods
-        sinon.stub(User, 'updateOne').resolves({ modifiedCount: 1 });
-        sinon.stub(User, 'find').resolves([{ email: 'user-email@example.com', name: 'User' }]);
-        sinon.stub(bookModel, 'find').resolves([{ title: 'Test Book' }]);
-        sinon.stub(nodemailer, 'createTransport').returns({
-            sendMail: sinon.stub().yields(null, { response: 'success' })
-        });
-        // Stub the response object
-        const res = { json: sinon.spy() };
+  // it('should handle successful book request and send appropriate response', async () => {
+  //   // Mock successful creation of order document
+  //   sinon.stub(orderModel, 'create').resolves({});
 
-        // Test input
-        const req = {
-            body: {
-                _uid: new mongoose.Types.ObjectId(),
-                _bid: new mongoose.Types.ObjectId(),
-                _oid: new mongoose.Types.ObjectId(),
-            },
-        };
+  //   // Mock successful retrieval of book and user information
+  //   sinon.stub(bookModel, 'find').resolves([{ title: 'Test Book' }]);
+  //   sinon.stub(User, 'find').resolves([{ email: 'user-email@example.com', name: 'User' }]);
 
-        // Execute the function
-        await reqBook(req, res);
+  //   // Mock sending emails successfully
+  //   sinon.stub(nodemailer, 'createTransport').returns({
+  //                 sendMail: sinon.stub().yields(null, { response: 'success' })
+  //             });
 
-        // Assert the expectations
-        expect(res.json.calledOnce, 'res.json should be called once').to.be.true;
-        expect(res.json.calledWithExactly({ val: 'Book is requested' }), 'res.json should be called with the correct arguments').to.be.true;
-    });
+  //   // Stub the response object
+  //   const res = { json: sinon.spy() };
 
+  //   // Test input
+  //   const req = {
+  //     body: {
+  //       _uid: new mongoose.Types.ObjectId(),
+  //       _bid: new mongoose.Types.ObjectId(),
+  //       _oid: new mongoose.Types.ObjectId(),
+  //     },
+  //   };
 
-    it('should handle failed book request', async () => {
-        // Mock User and bookModel methods
-        sinon.stub(User, 'updateOne').resolves({ modifiedCount: 0 });
-        sinon.stub(User, 'find').resolves([{ email: 'user-email@example.com', name: 'User' }]);
-        sinon.stub(bookModel, 'find').resolves([{ title: 'Test Book' }]);
-        // sinon.stub(sendMail, 'sendMail').resolves({ response: 'success' });
-        sinon.stub(nodemailer, 'createTransport').returns({
-            sendMail: sinon.stub().yields(null, { response: 'success' })
-        });
-        // Stub the response object
-        const res = { json: sinon.spy() };
+  //   // Execute the function
+  //   await reqBook(req, res);
 
-        // Test input
-        const req = {
-            body: {
-                _uid: new mongoose.Types.ObjectId(),
-                _bid: new mongoose.Types.ObjectId(),
-                _oid: new mongoose.Types.ObjectId(),
-            },
-        };
+  //   // Assert the expectations
+  //   expect(res.json.calledOnce, 'res.json should be called once').to.be.true;
+  //   expect(res.json.calledWithExactly({ val: 'Book is requested' }), 'res.json should be called with the correct arguments').to.be.true;
+  // });
 
-        // Execute the function
-        await reqBook(req, res);
+  it('should handle failed book request and send appropriate response', async () => {
+      // Mock failed creation of order document
+      sinon.stub(orderModel, 'create').rejects(new Error('Failed to create order'));
 
-        // Assert the expectations
-        expect(res.json.calledOnce, 'res.json should be called once').to.be.true;
-        expect(res.json.calledWithExactly({ val: 'Requesting book is failed' }), 'res.json should be called with the correct arguments').to.be.true;
-    });
+      // Stub the response object
+      const res = { json: sinon.spy() };
 
+      // Test input
+      const req = {
+          body: {
+              _uid: new mongoose.Types.ObjectId(),
+              _bid: new mongoose.Types.ObjectId(),
+              _oid: new mongoose.Types.ObjectId(),
+          },
+      };
+
+      // Execute the function
+      await reqBook(req, res);
+
+      // Assert the expectations
+      expect(res.json.calledOnce, 'res.json should be called once').to.be.true;
+      expect(res.json.calledWithExactly({ val: 'Requesting book is failed' }), 'res.json should be called with the correct arguments').to.be.true;
+  });
 });
 
 

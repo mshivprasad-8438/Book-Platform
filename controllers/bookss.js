@@ -1,4 +1,5 @@
 const User = require('../model/usersModel');
+const orderModel=require('../model/orderModel');
 const bookModel = require('../model/itemsModel');
 const sendMail = require('../notifications/emails');
 const s3functions = require('../middleware/uploads3')
@@ -128,19 +129,36 @@ exports.revBook = async function (req, res) {
 }
 
 exports.reqBook = async function (req, res) {
-  const ordres = await User.updateOne({ _id: req.body._uid }, { $push: { orders: req.body._bid } });
-  const reqres = await User.updateOne({ _id: req.body._oid }, { $push: { requests: { $each: [{ book: req.body._bid, user: req.body._uid }] }, $position: 0 } });
-  if ((ordres.modifiedCount == 1) && (reqres.modifiedCount == 1)) {
-    btitle = await bookModel.find({ _id: req.body._bid }, { title: 1 });
-    cust = await User.find({ _id: req.body._uid }, { email: 1, name: 1 });
-    sendMail(cust[0].email, `Order for book ${btitle[0].title} is success`, "Order");
-    email = await User.find({ _id: req.body._oid }, { email: 1 });
-    sendMail(email[0].email, `${btitle[0].title} book is ordered by ${cust[0].name} is id is ${req.body._uid}`, "Book deletion");
-    res.json({ val: "Book is requested" })
+  const data = {
+    owner: req.body._oid,
+    customer: req.body._uid,
+    book: req.body._bid,
+    status: 'Order processing'
   }
-  else {
-    res.json({ val: "Requesting book is failed" })
+
+  async function success() {
+    try {
+      btitle = await bookModel.find({ _id: req.body._bid }, { title: 1 });
+      cust = await User.find({ _id: req.body._uid }, { email: 1, name: 1 });
+      sendMail(cust[0].email, `Order for book ${btitle[0].title} is success`, "Order");
+      email = await User.find({ _id: req.body._oid }, { email: 1 });
+      sendMail(email[0].email, `${btitle[0].title} book is ordered by ${cust[0].name} is id is ${req.body._uid}`, "Book deletion");
+      res.json({ val: "Book is requested" });
+    } catch (error) {
+      console.error('Error:', error);
+      res.json({ val: "Requesting book is failed" });
+    }
+  }
+
+  try {
+    const createdDocument = await orderModel.create(data);
+    success();
+    console.log('Document inserted successfully:', createdDocument);
+  } catch (err) {
+    console.error('Error creating document:', err);
+    res.json({ val: "Requesting book is failed" });
   }
 }
+
 
 // module.exports={delBook,adBook,reqBook}

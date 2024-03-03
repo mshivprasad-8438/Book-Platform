@@ -28,16 +28,6 @@ const userSchema = new Schema({
         type:String,
         required:true,
     },
-    posts:[{
-        type:mongoose.Schema.Types.ObjectId,ref:'books'
-    }],
-    orders:[{
-        type:mongoose.Schema.Types.ObjectId,ref:'books'
-    }],
-    requests:[{
-        user:{type:mongoose.Schema.Types.ObjectId,ref:'users'},
-        book:{type:mongoose.Schema.Types.ObjectId,ref:'books'}
-    }],
     tag:{
         type:String,
         default:"admin"

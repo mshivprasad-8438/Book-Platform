@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "covering": "nyc --reporter=lcov npm test",
+    "covering": "nyc npm test",
     "start": "node --watch ./bin/www",
     "test": "mocha './test/*.test.js'"
   },

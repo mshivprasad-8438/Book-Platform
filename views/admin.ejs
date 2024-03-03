@@ -38,18 +38,20 @@
             <% for(var i=0; i<list.length; i++) { %>
                 <div id="card<%=i%>" class="card text-bg-primary mb-3"
                     style="max-width: 250px; margin-left: 20px; margin-right: 20px;border-radius: 10px; border: solid black 1px;">
-                    <img src="<%= list[i].images %>" class="card-img-top" id="bookpic" alt="image"
+                    <img src="<%= list[i].user.images %>" class="card-img-top" id="bookpic" alt="image"
                         style=" border: solid black 2px;background-color: rgb(215,198,207);width:250px;height: 300px;">
 
                     <div class="card-body"
                         style="background-color: rgb(135,158,176);border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
                         <h5 class="card-title">
-                            Name: <%= list[i].name %>
+                            Name: <%= list[i].user.name %>
                         </h5>
                         <p class="card-text">
-                            Email: <%= list[i].email %>
+                            Email: <%= list[i].user.email %>
                         </p>
-
+                        <p>
+                           Registered at : <%= list[i].time %> 
+                        </p>
                         <button type="button" id="More<%=i%>" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#exampleModal<%=i%>">More</button>
                         <!-- Modal -->
