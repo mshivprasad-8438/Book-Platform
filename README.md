@@ -85,6 +85,6 @@
    Also install all the required modules using the `npm i module_name` command
    At the end run in teminal run `npm start` command
    
-5. Open http://localhost:7000/userauth/home in your browser.
+5. Open http://localhost:7000/ in your browser.
 
 This Book Exchange Platform provides an intuitive and user-friendly interface for book enthusiasts to share their passion for reading.
