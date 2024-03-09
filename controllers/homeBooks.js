@@ -75,7 +75,6 @@ const bookFind = async (req, res) => {
     }
   }
 
-
   res.render("home", { list: data, bks: data2 })
 }
 

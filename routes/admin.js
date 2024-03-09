@@ -22,7 +22,7 @@ function formatDate(dateString) {
     return `${hours}:${minutes}:${seconds} on ${day}/${month}/${year}`;
   }
 
-router.get("/userdetails", fetchuser, async (req, res, next) => {
+router.get("/userdetails", fetchuser, async (req, res) => {
     const userID = req.user.id;
     const user = await User.findById(userID).select("-password");
     if (user.tag == "admin") {
